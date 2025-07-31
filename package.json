@@ -1,0 +1,32 @@
+{
+  "name": "wurzelheim.de",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "prepare": "nuxt prepare",
+    "typecheck": "nuxt typecheck",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@nuxt/eslint": "^1.7.1",
+    "nuxt": "^4.0.2",
+    "vue": "latest",
+    "vuetify": "^3.9.1"
+  },
+  "devDependencies": {
+    "@mdi/font": "^7.4.47",
+    "@nuxt/eslint-config": "^1.7.1",
+    "@nuxt/fonts": "^0.11.4",
+    "eslint": "^9.32.0",
+    "sass-embedded": "^1.89.2",
+    "typescript": "^5.8.3",
+    "vue-tsc": "^3.0.1",
+    "vuetify-nuxt-module": "^0.18.7"
+  }
+}
