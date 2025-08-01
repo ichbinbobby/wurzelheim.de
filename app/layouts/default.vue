@@ -35,6 +35,8 @@
     </v-main>
 
     <AppFooter />
+
+    <v-snackbar-queue v-model="messages.queue" />
   </v-app>
 </template>
 
@@ -42,4 +44,5 @@
   import { useTheme } from 'vuetify'
 
   const theme = useTheme()
+  const messages = useMessagesStore()
 </script>

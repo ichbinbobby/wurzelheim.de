@@ -20,7 +20,7 @@
 
       <v-row>
         <v-col>
-          <v-textarea v-model="eventText" label="Beschreibung" clearable />
+          <v-textarea v-model="eventText" append-inner-icon="mdi-content-copy" label="Beschreibung" @click:append-inner="copyEventText" />
         </v-col>
       </v-row>
         
@@ -61,6 +61,8 @@ Vergesst nicht bei Camp Fire einzuchecken. Ihr könnt uns einfach ansprechen. Ev
 
 const pokemon = ref<Pokemon | null>(null)
 
+const messages = useMessagesStore()
+
 // https://www.pokemon.com/api/1/de/kalos/kalos
 const pokemonList = ref<Pokemon[]>(pokemonData.map(p => ({
   title: p.name,
@@ -91,6 +93,13 @@ const eventTypes = ref([
   { title: 'GO Fest', value: 'GO Fest' },
   { title: 'GO Tour', value: 'GO Tour' },
 ])
+
+const copyEventText = () => {
+  if (eventText.value) {
+    navigator.clipboard.writeText(eventText.value)
+    messages.add('Event text copied to clipboard!')
+  }
+}
 </script>
 
 <style scoped>

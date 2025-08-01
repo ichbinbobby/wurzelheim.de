@@ -26,7 +26,7 @@ export default defineNuxtConfig({
   },
 
   css: [],
-  modules: ['@nuxt/fonts', 'vuetify-nuxt-module', '@nuxt/eslint'],
+  modules: ['@nuxt/fonts', 'vuetify-nuxt-module', '@nuxt/eslint', '@pinia/nuxt'],
 
   vuetify: {
     moduleOptions: {
