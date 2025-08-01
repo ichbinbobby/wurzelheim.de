@@ -1,6 +1,6 @@
 <template>
-  <v-sheet>
-    <v-container >
+  <v-sheet height="100vh">
+    <v-container fluid>
       <v-row>
         <v-col>
           <v-select v-model="eventType" :items="eventTypes" label="Event" return-object />
