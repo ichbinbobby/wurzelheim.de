@@ -1,60 +1,52 @@
 <template>
-  <v-sheet height="100vh">
-    <v-container fluid>
-      <v-row>
-        <v-col>
-          <v-select v-model="eventType" :items="eventTypes" label="Event" return-object />
-        </v-col>
+  <v-container fluid>
+    <v-row class="pt-2">
+      <v-col>
+        <v-select v-model="eventType" :items="eventTypes" label="Event" return-object variant="solo-filled" />
+      </v-col>
 
-        <v-col>
-          <v-autocomplete 
-            v-model="pokemon" 
-            :items="pokemonList" 
-            label="Pokemon"   
-            item-title="title"
-            item-value="value" 
-            return-object 
-          />
-        </v-col>
-      </v-row>
+      <v-col>
+        <v-autocomplete v-model="pokemon" :items="pokemonList" label="Pokemon" item-title="title" item-value="value"
+          return-object variant="solo-filled" />
+      </v-col>
+    </v-row>
 
-      <v-row>
-        <v-col>
-          <v-textarea v-model="eventText" append-inner-icon="mdi-content-copy" label="Beschreibung" @click:append-inner="copyEventText" />
-        </v-col>
-      </v-row>
-        
-      <v-row>
-        <!-- TODO Generated Text that can be copied and edited and where can we get the max cps for raiding? -->
-         <v-col cols="9">
-          <v-card>
-              <v-card-title><span>{{ pokemon ? pokemon.title : 'Pokemon' }}</span> <span>{{ eventType.title }}</span></v-card-title>
+    <v-row>
+      <v-col>
+        <v-textarea v-model="eventText" append-inner-icon="mdi-content-copy" label="Beschreibung" variant="solo-filled"
+          @click:append-inner="copyEventText" />
+      </v-col>
+    </v-row>
 
-              <v-card-text class="preserve-linebreaks">
-                {{ eventText }}
-              </v-card-text>
-          </v-card>
-         </v-col>
+    <v-row>
+      <!-- TODO Generated Text that can be copied and edited and where can we get the max cps for raiding? -->
+      <v-col cols="9">
+        <v-card>
+          <v-card-title>
+            <span>{{ pokemon ? pokemon.title : 'Pokemon' }}</span> 
+            <span>{{ eventType.title }}</span>
+          </v-card-title>
 
-         <v-col>
-            <v-avatar
-              class="ma-3"
-              rounded="0"
-              size="215"
-            >
-              <v-img :src="imgUrl" />
-            </v-avatar>
-         </v-col>
-      </v-row>
-    </v-container>
-  </v-sheet>
+          <v-card-text class="preserve-linebreaks">
+            {{ eventText }}
+          </v-card-text>
+        </v-card>
+      </v-col>
+
+      <v-col>
+        <v-avatar class="ma-3" rounded="0" size="215">
+          <v-img :src="imgUrl" />
+        </v-avatar>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">
 import type { Pokemon } from '~/types/pokemon'
 import pokemonData from '@/assets/pokemon.json'
 
-const eventType = ref({title: 'Raid-Stunde', value: 'Raid Hour'})
+const eventType = ref({ title: 'Raid-Stunde', value: 'Raid Hour' })
 const eventText = ref(`Pokemon Trainer, wir treffen uns vor dem dm hinter der Polizeistation, um gemeinsam zu Raiden.
 
 Vergesst nicht bei Camp Fire einzuchecken. Ihr könnt uns einfach ansprechen. Eventuell machen wir ein Foto. Bitte haltet die Stadt sauber 🙂`)
@@ -83,6 +75,7 @@ const imgUrl = computed(() => {
 const eventTypes = ref([
   { title: 'Raid-Stunde', value: 'Raid Hour' },
   { title: 'Raid-Tag', value: 'Raid Day' },
+  { title: 'Crypto-Raid-Wochenende', value: 'Shadow Raid Weekend' },
   { title: 'Dyna-Kampf-Tag', value: 'Max Battle Day' },
   { title: 'Gigadynamax', value: 'Gigantamax Battle Day' },
   { title: 'Community Day', value: 'Community Day' },
