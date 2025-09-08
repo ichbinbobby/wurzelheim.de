@@ -2,19 +2,37 @@
   <v-container fluid>
     <v-row class="pt-2">
       <v-col>
-        <v-select v-model="eventType" :items="eventTypes" label="Event" return-object variant="solo-filled" />
+        <v-select
+          v-model="eventType"
+          :items="eventTypes"
+          label="Event"
+          return-object
+          variant="solo-filled"
+        />
       </v-col>
 
       <v-col>
-        <v-autocomplete v-model="pokemon" :items="pokemonList" label="Pokemon" item-title="title" item-value="value"
-          return-object variant="solo-filled" />
+        <v-autocomplete
+          v-model="pokemon"
+          :items="pokemonList"
+          label="Pokemon"
+          item-title="title"
+          item-value="value"
+          return-object
+          variant="solo-filled"
+        />
       </v-col>
     </v-row>
 
     <v-row>
       <v-col>
-        <v-textarea v-model="eventText" append-inner-icon="mdi-content-copy" label="Beschreibung" variant="solo-filled"
-          @click:append-inner="copyEventText" />
+        <v-textarea
+          v-model="eventText"
+          append-inner-icon="mdi-content-copy"
+          label="Beschreibung"
+          variant="solo-filled"
+          @click:append-inner="copyEventText"
+        />
       </v-col>
     </v-row>
 
@@ -23,7 +41,7 @@
       <v-col cols="9">
         <v-card>
           <v-card-title>
-            <span>{{ pokemon ? pokemon.title : 'Pokemon' }}</span> 
+            <span>{{ pokemon ? pokemon.title : 'Pokemon' }}</span>
             <span>{{ eventType.title }}</span>
           </v-card-title>
 
@@ -47,7 +65,8 @@ import type { Pokemon } from '~/types/pokemon'
 import pokemonData from '@/assets/pokemon.json'
 
 const eventType = ref({ title: 'Raid-Stunde', value: 'Raid Hour' })
-const eventText = ref(`Pokemon Trainer, wir treffen uns vor dem dm hinter der Polizeistation, um gemeinsam zu Raiden.
+const eventText =
+  ref(`Pokemon Trainer, wir treffen uns vor dem dm hinter der Polizeistation, um gemeinsam zu Raiden.
 
 Vergesst nicht bei Camp Fire einzuchecken. Ihr könnt uns einfach ansprechen. Eventuell machen wir ein Foto. Bitte haltet die Stadt sauber 🙂`)
 
@@ -56,21 +75,25 @@ const pokemon = ref<Pokemon | null>(null)
 const messages = useMessagesStore()
 
 // https://www.pokemon.com/api/1/de/kalos/kalos
-const pokemonList = ref<Pokemon[]>(pokemonData.map(p => ({
-  title: p.name,
-  value: p.name,
-  id: p.id,
-  number: Number(p.number),
-  type: p.type,
-  detailPageURL: p.detailPageURL,
-  ThumbnailAltText: p.ThumbnailAltText,
-  ThumbnailImage: p.ThumbnailImage,
-  weakness: p.weakness,
-})))
+const pokemonList = ref<Pokemon[]>(
+  pokemonData.map((p) => ({
+    title: p.name,
+    value: p.name,
+    id: p.id,
+    number: Number(p.number),
+    type: p.type,
+    detailPageURL: p.detailPageURL,
+    ThumbnailAltText: p.ThumbnailAltText,
+    ThumbnailImage: p.ThumbnailImage,
+    weakness: p.weakness
+  }))
+)
 
 const imgUrl = computed(() => {
-  return pokemon.value ? pokemonList.value.find(p => p.title === pokemon.value?.title)?.ThumbnailImage : ''
-});
+  return pokemon.value
+    ? pokemonList.value.find((p) => p.title === pokemon.value?.title)?.ThumbnailImage
+    : ''
+})
 
 const eventTypes = ref([
   { title: 'Raid-Stunde', value: 'Raid Hour' },
@@ -84,7 +107,7 @@ const eventTypes = ref([
   { title: 'Schlüpftag', value: 'Hatch Day' },
   { title: 'Forschungstag', value: 'Research Day' },
   { title: 'GO Fest', value: 'GO Fest' },
-  { title: 'GO Tour', value: 'GO Tour' },
+  { title: 'GO Tour', value: 'GO Tour' }
 ])
 
 const copyEventText = () => {
