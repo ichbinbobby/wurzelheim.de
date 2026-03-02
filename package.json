@@ -21,7 +21,7 @@
     "nuxt": "^4.1.2",
     "pinia": "^3.0.3",
     "vue": "latest",
-    "vuetify": "^3.10.0"
+    "vuetify": "^4.0.0"
   },
   "devDependencies": {
     "@mdi/font": "^7.4.47",
@@ -34,6 +34,6 @@
     "sass-embedded": "^1.92.1",
     "typescript": "^5.9.2",
     "vue-tsc": "^3.0.7",
-    "vuetify-nuxt-module": "^0.18.7"
+    "vuetify-nuxt-module": "^0.19.5"
   }
 }

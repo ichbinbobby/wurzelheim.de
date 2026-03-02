@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fill-height" max-width="900">
+  <v-container class="fill-height d-flex align-center flex-wrap" max-width="900">
     <div>
       <v-img
         class="mb-4"
@@ -8,8 +8,8 @@
       />
 
       <div class="mb-8 text-center">
-        <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
-        <h1 class="text-h2 font-weight-bold">Vuetify</h1>
+        <div class="text-body-medium font-weight-light mb-n1">Welcome to</div>
+        <h1 class="text-display-medium font-weight-bold">Vuetify</h1>
       </div>
 
       <v-row>
@@ -27,13 +27,13 @@
             </template>
 
             <template #title>
-              <h2 class="text-h5 font-weight-bold">
+              <h2 class="text-headline-small font-weight-bold">
                 Get started
               </h2>
             </template>
 
             <template #subtitle>
-              <div class="text-subtitle-1">
+              <div class="text-body-large">
                 Change this page by updating <v-kbd>{{ `<HelloWorld />` }}</v-kbd> in <v-kbd>components/HelloWorld.vue</v-kbd>.
               </div>
             </template>
