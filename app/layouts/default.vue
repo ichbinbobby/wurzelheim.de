@@ -1,7 +1,18 @@
 <template>
   <v-app>
-    <v-app-bar title="Wurzelheim">
+    <v-app-bar>
+      <v-app-bar-title>
+        <NuxtLink class="text-decoration-none on-surface" to="/">Wurzelheim</NuxtLink>
+      </v-app-bar-title>
+
       <v-spacer />
+
+      <v-btn
+        prepend-icon="mdi-pokeball"
+        to="/meetup-creator"
+      >
+        Meetup Creator
+      </v-btn>
 
       <v-btn
         prepend-icon="mdi-campfire"
