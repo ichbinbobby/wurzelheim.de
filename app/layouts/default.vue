@@ -15,6 +15,13 @@
       </v-btn>
 
       <v-btn
+        prepend-icon="mdi-file-pdf-box"
+        to="/passcode-pdf"
+      >
+        Passcode PDF
+      </v-btn>
+
+      <v-btn
         prepend-icon="mdi-campfire"
         href="https://campfire.nianticlabs.com/discover"
         target="_blank"
