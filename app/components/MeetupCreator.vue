@@ -1,5 +1,11 @@
 <template>
   <v-container fluid>
+    <v-row>
+      <v-col>
+        <v-alert text="The Meetup creator is still in progress." type="info" variant="tonal" />
+      </v-col>
+    </v-row>
+
     <v-row class="pt-2">
       <v-col>
         <v-select
