@@ -30,13 +30,8 @@
           />
         </v-col>
 
-        <v-col cols="12" md="6">
-          <v-text-field
-            v-model="itemsText"
-            label="Items"
-            variant="solo-filled"
-            hide-details
-          />
+        <v-col cols="12" md="6" class="d-flex align-center gap-2">
+          <img v-for="item in items" :key="item" :src="item" class="preview-icon">
         </v-col>
       </v-row>
 
@@ -55,7 +50,9 @@
       <div v-for="code in codes" :key="code" class="business-card">
         <div class="card-title">{{ title }}</div>
         <div class="card-code">{{ code }}</div>
-        <div class="card-items">{{ itemsText }}</div>
+        <div class="card-items">
+          <img v-for="item in items" :key="item" :src="item" class="card-item-icon" />
+        </div>
         <div class="card-expiry">Code will expire {{ expiryDate }}</div>
       </div>
     </div>
@@ -63,82 +60,101 @@
 </template>
 
 <script setup lang="ts">
-  const title = ref('Wurzelheim Alexanderplatz')
-  const rawInput = ref('')
-  const expiryDate = ref('May 31st 2026 at 12:00:00 AM UTC')
-  const itemsText = ref(
-    'Contains 1 Premium Battle Pass, 1 Star Piece, 1 Egg Incubator, and 1 Incense'
-  )
+const title = ref('Wurzelheim Alexanderplatz')
+const rawInput = ref('')
+const expiryDate = ref('May 31st 2026 at 12:00:00 AM UTC')
 
-  const codes = computed(() =>
-    rawInput.value
-      .split(',')
-      .map((s) => s.trim())
-      .filter(Boolean)
-  )
+const items = [
+  '/item_paid_raid_ticket.png',
+  '/item_star_piece.png',
+  '/item_incubator_basic.png',
+  '/item_incense_ordinary.png'
+]
 
-  const print = () => window.print()
+const codes = computed(() =>
+  rawInput.value
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+)
+
+const print = () => window.print()
 </script>
 
 <style>
-  @media print {
-    .v-app-bar,
-    .v-footer,
-    .no-print {
-      display: none !important;
-    }
-
-    .v-main {
-      padding: 0 !important;
-    }
-
-    .v-container {
-      padding: 0 !important;
-    }
+@media print {
+  .v-app-bar,
+  .v-footer,
+  .no-print {
+    display: none !important;
   }
+
+  .v-main {
+    padding: 0 !important;
+  }
+
+  .v-container {
+    padding: 0 !important;
+  }
+}
 </style>
 
 <style scoped>
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 85mm);
-    gap: 5mm;
-  }
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 85mm);
+  gap: 5mm;
+}
 
-  .business-card {
-    width: 85mm;
-    height: 55mm;
-    border: 1px solid #999;
-    border-radius: 2mm;
-    padding: 4mm 6mm;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-sizing: border-box;
-    background: white;
-    color: black;
-    page-break-inside: avoid;
-  }
+.business-card {
+  width: 85mm;
+  height: 55mm;
+  border: 1px solid #999;
+  border-radius: 2mm;
+  padding: 4mm 6mm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background: white;
+  color: black;
+  page-break-inside: avoid;
+  text-align: center;
+}
 
-  .card-title {
-    font-size: 11pt;
-    font-weight: bold;
-  }
+.card-title {
+  font-size: 11pt;
+  font-weight: bold;
+}
 
-  .card-code {
-    font-family: monospace;
-    font-size: 14pt;
-    letter-spacing: 1px;
-    text-align: center;
-  }
+.card-code {
+  font-family: monospace;
+  font-size: 14pt;
+  letter-spacing: 1px;
+  text-align: center;
+}
 
-  .card-items {
-    font-size: 7pt;
-    color: #444;
-  }
+.card-items {
+  display: flex;
+  flex-direction: row;
+  gap: 3mm;
+}
 
-  .card-expiry {
-    font-size: 7pt;
-    color: #444;
-  }
+.preview-icon {
+  height: 40px;
+  width: 40px;
+  object-fit: contain;
+}
+
+.card-item-icon {
+  height: 10mm;
+  width: 10mm;
+  object-fit: contain;
+}
+
+.card-expiry {
+  font-size: 7pt;
+  color: #444;
+}
 </style>
