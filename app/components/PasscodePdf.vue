@@ -58,6 +58,18 @@
         </v-col>
 
         <v-col cols="12" md="6" class="d-flex align-center gap-2">
+          <v-btn-toggle
+            v-model="itemsDisplay"
+            mandatory
+            color="primary"
+            density="compact"
+            variant="outlined"
+            class="mr-2"
+          >
+            <v-btn value="images">Images</v-btn>
+            <v-btn value="text">Text</v-btn>
+            <v-btn value="none">None</v-btn>
+          </v-btn-toggle>
           <img v-for="item in items" :key="item" :src="item" class="preview-icon" />
         </v-col>
       </v-row>
@@ -86,8 +98,11 @@
         <div v-for="code in codes" :key="code" class="business-card">
           <div class="card-title">{{ title }}</div>
           <div class="card-code">{{ code }}</div>
-          <div class="card-items">
-            <img v-for="item in items" :key="item" :src="item" class="card-item-icon" />
+          <div v-show="itemsDisplay !== 'none'" class="card-items">
+            <template v-if="itemsDisplay === 'images'">
+              <img v-for="item in items" :key="item" :src="item" class="card-item-icon">
+            </template>
+            <span v-else class="card-items-text">{{ itemsText }}</span>
           </div>
           <div class="card-expiry">Code will expire {{ expiryDate }}</div>
         </div>
@@ -97,6 +112,8 @@
 </template>
 
 <script setup lang="ts">
+const itemsDisplay = ref<'images' | 'text' | 'none'>('images')
+const itemsText = 'Raid Pass, Star Piece, Incubator and Incense'
 const title = ref('Wurzelheim Alexanderplatz')
 const rawInput = ref('')
 const separator = ref(',')
@@ -219,6 +236,10 @@ const print = () => window.print()
   height: 8mm;
   width: 8mm;
   object-fit: contain;
+}
+
+.card-items-text {
+  font-size: 6pt;
 }
 
 .card-expiry {
