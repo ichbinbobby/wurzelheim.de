@@ -7,19 +7,9 @@
 
       <v-spacer />
 
-      <v-btn
-        prepend-icon="mdi-pokeball"
-        to="/meetup-creator"
-      >
-        Meetup Creator
-      </v-btn>
+      <v-btn prepend-icon="mdi-pokeball" to="/meetup-creator"> Meetup Creator </v-btn>
 
-      <v-btn
-        prepend-icon="mdi-file-pdf-box"
-        to="/passcode-pdf"
-      >
-        Passcode PDF
-      </v-btn>
+      <v-btn prepend-icon="mdi-file-pdf-box" to="/passcode-pdf"> Passcode PDF </v-btn>
 
       <v-btn
         prepend-icon="mdi-campfire"
@@ -32,11 +22,11 @@
 
       <v-btn
         prepend-icon="mdi-map-marker"
-        href="https://www.google.com/maps"
+        href="https://pokemongo.com/de/map"
         target="_blank"
         rel="noopener"
       >
-        Google Maps
+        Pokemon GO Map
       </v-btn>
 
       <v-btn
@@ -59,8 +49,8 @@
 </template>
 
 <script setup lang="ts">
-  import { useTheme } from 'vuetify'
+import { useTheme } from 'vuetify'
 
-  const theme = useTheme()
-  const messages = useMessagesStore()
+const theme = useTheme()
+const messages = useMessagesStore()
 </script>
