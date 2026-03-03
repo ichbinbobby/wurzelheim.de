@@ -143,17 +143,22 @@ const print = () => window.print()
     margin: 5mm;
   }
 
+  :root {
+    color-scheme: light !important;
+  }
+
   .v-app-bar,
   .v-footer,
   .no-print {
     display: none !important;
   }
 
-  .v-main {
-    padding: 0 !important;
-  }
-
+  body,
+  .v-application,
+  .v-main,
   .v-container {
+    background: white !important;
+    color: black !important;
     padding: 0 !important;
   }
 
