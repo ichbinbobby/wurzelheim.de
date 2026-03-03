@@ -2,18 +2,44 @@
   <v-container>
     <div class="no-print">
       <v-row>
+        <v-col>
+          <v-alert
+            text="This tool will take your monthly digital codes and generate a PDF for you to print."
+            type="info"
+            variant="tonal"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row>
         <v-col cols="12">
           <v-text-field
             v-model="title"
             label="Title"
             variant="solo-filled"
             class="mb-3"
-            hide-details
+            hint="Name of your Campfire group"
+            persistent-hint
           />
+
+          <div class="d-flex align-center gap-3 mb-2">
+            <v-btn-toggle
+              v-model="separator"
+              mandatory
+              color="primary"
+              density="compact"
+              variant="outlined"
+            >
+              <v-btn value=",">Comma</v-btn>
+              <v-btn value=" ">Space</v-btn>
+            </v-btn-toggle>
+
+            <p class="ml-4">Select your separator</p>
+          </div>
 
           <v-textarea
             v-model="rawInput"
-            label="Codes (comma separated)"
+            label="Codes"
             variant="solo-filled"
             rows="3"
             hint="If you paste 120 codes it will create five pages with 3 columns and 8 rows"
@@ -73,6 +99,7 @@
 <script setup lang="ts">
 const title = ref('Wurzelheim Alexanderplatz')
 const rawInput = ref('')
+const separator = ref(',')
 const expiryDate = ref('May 31st 2026 at 12:00:00 AM UTC')
 
 const items = [
@@ -84,7 +111,7 @@ const items = [
 
 const codes = computed(() =>
   rawInput.value
-    .split(',')
+    .split(separator.value)
     .map((s) => s.trim())
     .filter(Boolean)
 )
