@@ -7,8 +7,8 @@
             v-model="title"
             label="Title"
             variant="solo-filled"
-            hide-details
             class="mb-3"
+            hide-details
           />
 
           <v-textarea
@@ -16,7 +16,8 @@
             label="Codes (comma separated)"
             variant="solo-filled"
             rows="3"
-            hide-details
+            hint="If you paste 120 codes it will create five pages with 3 columns and 8 rows"
+            persistent-hint
             auto-grow
           />
         </v-col>
@@ -31,29 +32,39 @@
         </v-col>
 
         <v-col cols="12" md="6" class="d-flex align-center gap-2">
-          <img v-for="item in items" :key="item" :src="item" class="preview-icon">
+          <img v-for="item in items" :key="item" :src="item" class="preview-icon" />
         </v-col>
       </v-row>
 
-      <v-btn
-        class="mt-4"
-        prepend-icon="mdi-file-pdf-box"
-        color="primary"
-        :disabled="!codes.length"
-        @click="print"
-      >
-        Save as PDF
-      </v-btn>
+      <div class="d-flex align-center gap-3 mt-4">
+        <v-btn
+          prepend-icon="mdi-file-pdf-box"
+          color="primary"
+          :disabled="!codes.length"
+          @click="print"
+        >
+          Save as PDF
+        </v-btn>
+
+        <div class="ml-4">
+          Target will be your printer. If you want to save as PDF, select "Save as PDF" in the
+          printer dialog.
+        </div>
+      </div>
+
+      <br />
     </div>
 
-    <div v-if="codes.length" class="cards-grid mt-6">
-      <div v-for="code in codes" :key="code" class="business-card">
-        <div class="card-title">{{ title }}</div>
-        <div class="card-code">{{ code }}</div>
-        <div class="card-items">
-          <img v-for="item in items" :key="item" :src="item" class="card-item-icon" />
+    <div v-if="codes.length" class="a4-preview">
+      <div class="cards-grid">
+        <div v-for="code in codes" :key="code" class="business-card">
+          <div class="card-title">{{ title }}</div>
+          <div class="card-code">{{ code }}</div>
+          <div class="card-items">
+            <img v-for="item in items" :key="item" :src="item" class="card-item-icon" />
+          </div>
+          <div class="card-expiry">Code will expire {{ expiryDate }}</div>
         </div>
-        <div class="card-expiry">Code will expire {{ expiryDate }}</div>
       </div>
     </div>
   </v-container>
@@ -83,6 +94,11 @@ const print = () => window.print()
 
 <style>
 @media print {
+  @page {
+    size: A4;
+    margin: 5mm;
+  }
+
   .v-app-bar,
   .v-footer,
   .no-print {
@@ -96,22 +112,48 @@ const print = () => window.print()
   .v-container {
     padding: 0 !important;
   }
+
+  .a4-preview {
+    display: contents;
+  }
+
+  .cards-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .business-card {
+    width: 100% !important;
+    height: 35mm !important;
+    border-radius: 0 !important;
+  }
 }
 </style>
 
 <style scoped>
+.a4-preview {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 5mm;
+  margin: 16px auto;
+  background: white;
+  color: black;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 85mm);
-  gap: 5mm;
+  grid-template-columns: repeat(auto-fill, 62mm);
+  gap: 2mm;
 }
 
 .business-card {
-  width: 85mm;
-  height: 55mm;
+  width: 62mm;
+  height: 33mm;
   border: 1px solid #999;
-  border-radius: 2mm;
-  padding: 4mm 6mm;
+  border-radius: 0;
+  padding: 2mm 3mm;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -124,21 +166,20 @@ const print = () => window.print()
 }
 
 .card-title {
-  font-size: 11pt;
+  font-size: 8pt;
   font-weight: bold;
 }
 
 .card-code {
   font-family: monospace;
-  font-size: 14pt;
+  font-size: 11pt;
   letter-spacing: 1px;
-  text-align: center;
 }
 
 .card-items {
   display: flex;
   flex-direction: row;
-  gap: 3mm;
+  gap: 2mm;
 }
 
 .preview-icon {
@@ -148,13 +189,13 @@ const print = () => window.print()
 }
 
 .card-item-icon {
-  height: 10mm;
-  width: 10mm;
+  height: 8mm;
+  width: 8mm;
   object-fit: contain;
 }
 
 .card-expiry {
-  font-size: 7pt;
+  font-size: 6pt;
   color: #444;
 }
 </style>
