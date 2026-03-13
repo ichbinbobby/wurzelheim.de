@@ -72,7 +72,7 @@
               </v-btn-toggle>
             </v-col>
 
-            <v-col cols="auto">
+            <v-col cols="auto" class="d-flex align-center ga-2">
               <v-btn-toggle
                 v-model="backsideType"
                 mandatory
@@ -83,7 +83,21 @@
                 <v-btn value="off">No backside</v-btn>
                 <v-btn value="logo">CA Logo</v-btn>
                 <v-btn v-if="cardLayout === 'fancy'" value="qr">QR Code</v-btn>
+                <v-btn value="custom">Custom</v-btn>
               </v-btn-toggle>
+
+              <template v-if="backsideType === 'custom'">
+                <v-btn variant="tonal" prepend-icon="mdi-upload" @click="fileInput?.click()">
+                  {{ customBacksideUrl ? 'Change image' : 'Upload' }}
+                </v-btn>
+                <input
+                  ref="fileInput"
+                  type="file"
+                  accept="image/*"
+                  style="display: none"
+                  @change="onFileChange"
+                />
+              </template>
             </v-col>
 
             <v-col cols="auto" class="d-flex align-center ga-2">
@@ -177,6 +191,11 @@
               :src="qrDataUrls[code]"
               class="backside-qr"
             />
+            <img
+              v-else-if="backsideType === 'custom' && customBacksideUrl"
+              :src="customBacksideUrl"
+              class="backside-img"
+            />
           </div>
         </div>
       </div>
@@ -212,7 +231,19 @@ const items = [
 ]
 
 const cardLayout = ref<'eco' | 'fancy'>('eco')
-const backsideType = ref<'off' | 'logo' | 'qr'>('off')
+const backsideType = ref<'off' | 'logo' | 'qr' | 'custom'>('off')
+const customBacksideUrl = ref<string | null>(null)
+const fileInput = ref<HTMLInputElement | null>(null)
+
+const onFileChange = (e: Event) => {
+  const file = (e.target as HTMLInputElement).files?.[0]
+  if (!file) return
+  const reader = new FileReader()
+  reader.onload = (ev) => {
+    customBacksideUrl.value = ev.target?.result as string
+  }
+  reader.readAsDataURL(file)
+}
 
 watch(cardLayout, (val) => {
   if (val === 'eco' && backsideType.value === 'qr') {
