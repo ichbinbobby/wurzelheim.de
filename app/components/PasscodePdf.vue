@@ -74,6 +74,15 @@
         </v-col>
       </v-row>
 
+      <v-switch
+        v-model="printBacksides"
+        class="mt-2 mb-1 ml-2"
+        color="primary"
+        density="compact"
+        hide-details
+        :label="`Print backsides ${printBacksides ? 'enabled' : 'disabled'}`"
+      />
+
       <div class="d-flex align-center gap-3 mt-4">
         <v-btn
           prepend-icon="mdi-file-pdf-box"
@@ -85,29 +94,46 @@
         </v-btn>
 
         <div class="ml-4">
-          Target will be your printer. If you want to save as PDF, select "Save as PDF" in the
-          printer dialog.
+          Opens your printer dialog. To save as PDF select "Save as PDF".
+          <span v-if="printBacksides">
+            For double-sided printing, enable <strong>Two-sided</strong> and set flip to
+            <strong>Long edge</strong>.</span
+          >
         </div>
       </div>
 
       <br />
     </div>
 
-    <div v-if="codes.length" class="a4-preview">
-      <div class="cards-grid">
-        <div v-for="code in codes" :key="code" class="business-card">
-          <div class="card-title">{{ title }}</div>
-          <div class="card-code">{{ code }}</div>
-          <div v-show="itemsDisplay !== 'none'" class="card-items">
-            <template v-if="itemsDisplay === 'images'">
-              <img v-for="item in items" :key="item" :src="item" class="card-item-icon">
-            </template>
-            <span v-else class="card-items-text">{{ itemsText }}</span>
+    <template v-for="(page, pageIndex) in pages" :key="pageIndex">
+      <div class="a4-preview">
+        <div class="cards-grid">
+          <div v-for="code in page" :key="code" class="business-card">
+            <div class="card-title">{{ title }}</div>
+            <div class="card-code">{{ code }}</div>
+            <div v-show="itemsDisplay !== 'none'" class="card-items">
+              <template v-if="itemsDisplay === 'images'">
+                <img v-for="item in items" :key="item" :src="item" class="card-item-icon" />
+              </template>
+              <span v-else class="card-items-text">{{ itemsText }}</span>
+            </div>
+            <div class="card-expiry">Code will expire {{ expiryDate }}</div>
           </div>
-          <div class="card-expiry">Code will expire {{ expiryDate }}</div>
         </div>
       </div>
-    </div>
+
+      <div v-if="printBacksides" class="a4-preview backsides">
+        <div class="cards-grid">
+          <div
+            v-for="code in backOrder(page)"
+            :key="'back-' + code"
+            class="business-card backside-card"
+          >
+            <img src="/ca_program.png" class="backside-img" />
+          </div>
+        </div>
+      </div>
+    </template>
   </v-container>
 </template>
 
@@ -136,12 +162,31 @@ const items = [
   '/item_incense_ordinary.png'
 ]
 
+const printBacksides = ref(false)
+
 const codes = computed(() =>
   rawInput.value
     .split(separator.value)
     .map((s) => s.trim())
     .filter(Boolean)
 )
+
+const pages = computed(() => {
+  const result: string[][] = []
+  for (let i = 0; i < codes.value.length; i += 24) {
+    result.push(codes.value.slice(i, i + 24))
+  }
+  return result
+})
+
+// Reverse each row of 3 so backs align when printed double-sided (flip on long edge)
+const backOrder = (page: string[]) => {
+  const result: string[] = []
+  for (let i = 0; i < page.length; i += 3) {
+    result.push(...page.slice(i, i + 3).toReversed())
+  }
+  return result
+}
 
 const print = () => window.print()
 </script>
@@ -173,7 +218,16 @@ const print = () => window.print()
   }
 
   .a4-preview {
-    display: contents;
+    width: 100% !important;
+    min-height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    page-break-after: always;
+  }
+
+  .a4-preview:last-child {
+    page-break-after: auto;
   }
 
   .cards-grid {
@@ -260,5 +314,19 @@ const print = () => window.print()
 .card-expiry {
   font-size: 6pt;
   color: #444;
+}
+
+.backside-card {
+  justify-content: center;
+}
+
+.backside-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.backsides {
+  margin-top: 16px;
 }
 </style>
