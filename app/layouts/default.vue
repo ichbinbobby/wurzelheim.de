@@ -9,7 +9,7 @@
 
       <v-btn prepend-icon="mdi-pokeball" to="/meetup-creator"> Meetup Creator </v-btn>
 
-      <v-btn prepend-icon="mdi-file-pdf-box" to="/passcode-pdf"> Passcode PDF </v-btn>
+      <v-btn prepend-icon="mdi-file-pdf-box" to="/code-card-generator"> Code Card Generator </v-btn>
 
       <v-btn
         prepend-icon="mdi-campfire"
