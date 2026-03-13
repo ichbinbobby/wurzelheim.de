@@ -48,7 +48,7 @@
           />
         </v-col>
 
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="3">
           <v-text-field
             v-model="expiryDate"
             label="Expiry date"
@@ -57,34 +57,50 @@
           />
         </v-col>
 
-        <v-col cols="12" md="4" class="d-flex align-center justify-center gap-2">
-          <v-btn-toggle
-            v-model="backsideType"
-            mandatory
-            color="primary"
-            density="compact"
-            variant="outlined"
-          >
-            <v-btn value="off">No backside</v-btn>
-            <v-btn value="logo">CA Logo</v-btn>
-            <v-btn value="qr">QR Code</v-btn>
-          </v-btn-toggle>
-        </v-col>
+        <v-col cols="12" md="9">
+          <v-row align="center" class="ga-4">
+            <v-col cols="auto">
+              <v-btn-toggle
+                v-model="cardLayout"
+                mandatory
+                color="primary"
+                density="compact"
+                variant="outlined"
+              >
+                <v-btn value="eco">Eco</v-btn>
+                <v-btn value="fancy">Fancy</v-btn>
+              </v-btn-toggle>
+            </v-col>
 
-        <v-col cols="12" md="4" class="d-flex align-center justify-end gap-2">
-          <v-btn-toggle
-            v-model="itemsDisplay"
-            mandatory
-            color="primary"
-            density="compact"
-            variant="outlined"
-            class="mr-2"
-          >
-            <v-btn value="images">Images</v-btn>
-            <v-btn value="text">Text</v-btn>
-            <v-btn value="none">None</v-btn>
-          </v-btn-toggle>
-          <img v-for="item in items" :key="item" :src="item" class="preview-icon" />
+            <v-col cols="auto">
+              <v-btn-toggle
+                v-model="backsideType"
+                mandatory
+                color="primary"
+                density="compact"
+                variant="outlined"
+              >
+                <v-btn value="off">No backside</v-btn>
+                <v-btn value="logo">CA Logo</v-btn>
+                <v-btn v-if="cardLayout === 'fancy'" value="qr">QR Code</v-btn>
+              </v-btn-toggle>
+            </v-col>
+
+            <v-col cols="auto" class="d-flex align-center ga-2">
+              <v-btn-toggle
+                v-model="itemsDisplay"
+                mandatory
+                color="primary"
+                density="compact"
+                variant="outlined"
+              >
+                <v-btn value="images">Images</v-btn>
+                <v-btn value="text">Text</v-btn>
+                <v-btn value="none">None</v-btn>
+              </v-btn-toggle>
+              <img v-for="item in items" :key="item" :src="item" class="preview-icon" />
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
 
@@ -113,16 +129,37 @@
     <template v-for="(page, pageIndex) in pages" :key="pageIndex">
       <div class="a4-preview">
         <div class="cards-grid">
-          <div v-for="code in page" :key="code" class="business-card">
-            <div class="card-title">{{ title }}</div>
-            <div class="card-code">{{ code }}</div>
-            <div v-show="itemsDisplay !== 'none'" class="card-items">
-              <template v-if="itemsDisplay === 'images'">
-                <img v-for="item in items" :key="item" :src="item" class="card-item-icon" />
-              </template>
-              <span v-else class="card-items-text">{{ itemsText }}</span>
-            </div>
-            <div class="card-expiry">Code will expire {{ expiryDate }}</div>
+          <div
+            v-for="code in page"
+            :key="code"
+            class="business-card"
+            :class="{ 'business-card--eco': cardLayout === 'eco' }"
+          >
+            <template v-if="cardLayout === 'eco'">
+              <div class="card-content">
+                <div class="card-title">{{ title }}</div>
+                <div class="card-code">{{ code }}</div>
+                <div v-show="itemsDisplay !== 'none'" class="card-items">
+                  <template v-if="itemsDisplay === 'images'">
+                    <img v-for="item in items" :key="item" :src="item" class="card-item-icon" />
+                  </template>
+                  <span v-else class="card-items-text">{{ itemsText }}</span>
+                </div>
+                <div class="card-expiry">Expires {{ expiryDate }}</div>
+              </div>
+              <img v-if="qrDataUrls[code]" :src="qrDataUrls[code]" class="card-qr" />
+            </template>
+            <template v-else>
+              <div class="card-title">{{ title }}</div>
+              <div class="card-code">{{ code }}</div>
+              <div v-show="itemsDisplay !== 'none'" class="card-items">
+                <template v-if="itemsDisplay === 'images'">
+                  <img v-for="item in items" :key="item" :src="item" class="card-item-icon" />
+                </template>
+                <span v-else class="card-items-text">{{ itemsText }}</span>
+              </div>
+              <div class="card-expiry">Code will expire {{ expiryDate }}</div>
+            </template>
           </div>
         </div>
       </div>
@@ -174,7 +211,14 @@ const items = [
   '/item_incense_ordinary.png'
 ]
 
+const cardLayout = ref<'eco' | 'fancy'>('eco')
 const backsideType = ref<'off' | 'logo' | 'qr'>('off')
+
+watch(cardLayout, (val) => {
+  if (val === 'eco' && backsideType.value === 'qr') {
+    backsideType.value = 'off'
+  }
+})
 
 const codes = computed(() =>
   rawInput.value
@@ -309,6 +353,35 @@ const print = () => window.print()
   text-align: center;
 }
 
+/* Eco layout: text left, QR right */
+.business-card--eco {
+  flex-direction: row;
+  align-items: stretch;
+  text-align: left;
+  gap: 2mm;
+}
+
+.card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.card-qr {
+  width: 27mm;
+  height: 27mm;
+  object-fit: contain;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.business-card--eco .card-item-icon {
+  height: 5mm;
+  width: 5mm;
+}
+
 .card-title {
   font-size: 8pt;
   font-weight: bold;
@@ -316,7 +389,7 @@ const print = () => window.print()
 
 .card-code {
   font-family: monospace;
-  font-size: 11pt;
+  font-size: 10pt;
   letter-spacing: 1px;
 }
 
