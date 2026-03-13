@@ -48,7 +48,7 @@
           />
         </v-col>
 
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="4">
           <v-text-field
             v-model="expiryDate"
             label="Expiry date"
@@ -57,7 +57,21 @@
           />
         </v-col>
 
-        <v-col cols="12" md="6" class="d-flex align-center gap-2">
+        <v-col cols="12" md="4" class="d-flex align-center justify-center gap-2">
+          <v-btn-toggle
+            v-model="backsideType"
+            mandatory
+            color="primary"
+            density="compact"
+            variant="outlined"
+          >
+            <v-btn value="off">No backside</v-btn>
+            <v-btn value="logo">CA Logo</v-btn>
+            <v-btn value="qr">QR Code</v-btn>
+          </v-btn-toggle>
+        </v-col>
+
+        <v-col cols="12" md="4" class="d-flex align-center justify-end gap-2">
           <v-btn-toggle
             v-model="itemsDisplay"
             mandatory
@@ -74,15 +88,6 @@
         </v-col>
       </v-row>
 
-      <v-switch
-        v-model="printBacksides"
-        class="mt-2 mb-1 ml-2"
-        color="primary"
-        density="compact"
-        hide-details
-        :label="`Print backsides ${printBacksides ? 'enabled' : 'disabled'}`"
-      />
-
       <div class="d-flex align-center gap-3 mt-4">
         <v-btn
           prepend-icon="mdi-file-pdf-box"
@@ -95,7 +100,7 @@
 
         <div class="ml-4">
           Opens your printer dialog. To save as PDF select "Save as PDF".
-          <span v-if="printBacksides">
+          <span v-if="backsideType !== 'off'">
             For double-sided printing, enable <strong>Two-sided</strong> and set flip to
             <strong>Long edge</strong>.</span
           >
@@ -122,14 +127,19 @@
         </div>
       </div>
 
-      <div v-if="printBacksides" class="a4-preview backsides">
+      <div v-if="backsideType !== 'off'" class="a4-preview backsides">
         <div class="cards-grid">
           <div
             v-for="code in backOrder(page)"
             :key="'back-' + code"
             class="business-card backside-card"
           >
-            <img src="/ca_program.png" class="backside-img" />
+            <img v-if="backsideType === 'logo'" src="/ca_program.png" class="backside-img" />
+            <img
+              v-else-if="backsideType === 'qr' && qrDataUrls[code]"
+              :src="qrDataUrls[code]"
+              class="backside-qr"
+            />
           </div>
         </div>
       </div>
@@ -138,6 +148,8 @@
 </template>
 
 <script setup lang="ts">
+import QRCode from 'qrcode'
+
 const itemsDisplay = ref<'images' | 'text' | 'none'>('images')
 const itemsText = 'Raid Pass, Star Piece, Incubator and Incense'
 const title = ref('Wurzelheim Alexanderplatz')
@@ -162,7 +174,7 @@ const items = [
   '/item_incense_ordinary.png'
 ]
 
-const printBacksides = ref(false)
+const backsideType = ref<'off' | 'logo' | 'qr'>('off')
 
 const codes = computed(() =>
   rawInput.value
@@ -187,6 +199,25 @@ const backOrder = (page: string[]) => {
   }
   return result
 }
+
+const qrDataUrls = ref<Record<string, string>>({})
+
+watch(
+  codes,
+  async (newCodes) => {
+    const entries = await Promise.all(
+      newCodes.map(async (code) => {
+        const url = await QRCode.toDataURL(
+          `https://store.pokemongo.com/offer-redemption?passcode=${code}`,
+          { margin: 1, width: 200 }
+        )
+        return [code, url] as const
+      })
+    )
+    qrDataUrls.value = Object.fromEntries(entries)
+  },
+  { immediate: true }
+)
 
 const print = () => window.print()
 </script>
@@ -323,6 +354,12 @@ const print = () => window.print()
 .backside-img {
   width: 100%;
   height: 100%;
+  object-fit: contain;
+}
+
+.backside-qr {
+  width: 29mm;
+  height: 29mm;
   object-fit: contain;
 }
 
