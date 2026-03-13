@@ -117,7 +117,17 @@ const itemsText = 'Raid Pass, Star Piece, Incubator and Incense'
 const title = ref('Wurzelheim Alexanderplatz')
 const rawInput = ref('')
 const separator = ref(',')
-const expiryDate = ref('May 31st 2026 at 12:00:00 AM UTC')
+const getExpiryDate = () => {
+  const date = new Date()
+  date.setMonth(date.getMonth() + 3)
+  const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0)
+  const day = lastDay.getDate()
+  const suffix = day === 1 ? 'st' : day === 2 ? 'nd' : day === 3 ? 'rd' : 'th'
+  const month = lastDay.toLocaleString('en-US', { month: 'long' })
+  const year = lastDay.getFullYear()
+  return `${month} ${day}${suffix} ${year} at 12:00:00 AM UTC`
+}
+const expiryDate = ref(getExpiryDate())
 
 const items = [
   '/item_paid_raid_ticket.png',
