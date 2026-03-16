@@ -11,6 +11,16 @@
         </v-col>
       </v-row>
 
+      <v-row v-if="hasIncompleteRow">
+        <v-col>
+          <v-alert
+            text="If you have less than three code cards in a row, the background is not printed correctly for that row, because of long edge flipping."
+            type="warning"
+            variant="tonal"
+          />
+        </v-col>
+      </v-row>
+
       <v-row>
         <v-col cols="12">
           <v-text-field
@@ -281,6 +291,8 @@ const pages = computed(() => {
   }
   return result
 })
+
+const hasIncompleteRow = computed(() => pages.value.some((page) => page.length % 3 !== 0))
 
 // Reverse each row of 3 so backs align when printed double-sided (flip on long edge)
 const backOrder = (page: string[]) => {
