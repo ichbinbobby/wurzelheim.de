@@ -48,16 +48,25 @@
           />
         </v-col>
 
-        <v-col cols="12" md="3">
-          <v-text-field
-            v-model="expiryDate"
-            label="Expiry date"
-            variant="solo-filled"
-            hide-details
-          />
-        </v-col>
+        <v-row>
+          <v-col cols="6">
+            <v-text-field v-model="expiryDate" label="Expiry date" variant="solo-filled" />
+          </v-col>
 
-        <v-col cols="12" md="9">
+          <v-col cols="6">
+            <v-text-field
+              v-model="cardBackgroundColor"
+              label="Card background"
+              variant="solo-filled"
+              hint="Hex color (e.g. #ff0000). Leave empty for none. Activate background graphics in the print dialog."
+              persistent-hint
+            />
+          </v-col>
+        </v-row>
+      </v-row>
+
+      <v-row>
+        <v-col cols="12">
           <v-row align="center" class="ga-4">
             <v-col cols="auto">
               <v-btn-toggle
@@ -148,6 +157,7 @@
             :key="code"
             class="business-card"
             :class="{ 'business-card--eco': cardLayout === 'eco' }"
+            :style="cardBackgroundStyle"
           >
             <template v-if="cardLayout === 'eco'">
               <div class="card-content">
@@ -184,6 +194,7 @@
             v-for="code in backOrder(page)"
             :key="'back-' + code"
             class="business-card backside-card"
+            :style="cardBackgroundStyle"
           >
             <img v-if="backsideType === 'logo'" src="/ca_program.png" class="backside-img" />
             <img
@@ -222,6 +233,11 @@ const getExpiryDate = () => {
   return `${month} ${day}${suffix} ${year} at 12:00:00 AM UTC`
 }
 const expiryDate = ref(getExpiryDate())
+const cardBackgroundColor = ref('')
+
+const cardBackgroundStyle = computed(() => ({
+  backgroundColor: cardBackgroundColor.value || 'transparent'
+}))
 
 const items = [
   '/item_paid_raid_ticket.png',
