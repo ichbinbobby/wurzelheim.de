@@ -179,7 +179,7 @@
                   </template>
                   <span v-else class="card-items-text">{{ itemsText }}</span>
                 </div>
-                <div class="card-expiry">Expires {{ expiryDate }}</div>
+                <div class="card-expiry">{{ expiryDate }}</div>
               </div>
               <img v-if="qrDataUrls[code]" :src="qrDataUrls[code]" class="card-qr" />
             </template>
