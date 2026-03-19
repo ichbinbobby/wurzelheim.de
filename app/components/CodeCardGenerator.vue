@@ -186,6 +186,9 @@
             </template>
           </div>
         </div>
+        <div v-if="backsideType !== 'off'" class="corner-marker corner-marker--right">
+          flip &#8594;
+        </div>
       </div>
 
       <div v-if="backsideType !== 'off'" class="a4-preview backsides">
@@ -197,20 +200,21 @@
             :style="code ? cardBackgroundStyle : { border: 'none', background: 'transparent' }"
           >
             <template v-if="code">
-              <img v-if="backsideType === 'logo'" src="/ca_program.png" class="backside-img">
+              <img v-if="backsideType === 'logo'" src="/ca_program.png" class="backside-img" />
               <img
                 v-else-if="backsideType === 'qr' && qrDataUrls[code]"
                 :src="qrDataUrls[code]"
                 class="backside-qr"
-              >
+              />
               <img
                 v-else-if="backsideType === 'custom' && customBacksideUrl"
                 :src="customBacksideUrl"
                 class="backside-img"
-              >
+              />
             </template>
           </div>
         </div>
+        <div class="corner-marker corner-marker--left">&#8592; flip</div>
       </div>
     </template>
   </v-container>
@@ -347,6 +351,7 @@ const print = () => window.print()
     width: 100% !important;
     min-height: auto !important;
     padding: 0 !important;
+    padding-bottom: 7mm !important;
     margin: 0 !important;
     box-shadow: none !important;
     page-break-after: always;
@@ -372,6 +377,7 @@ const print = () => window.print()
 
 <style scoped>
 .a4-preview {
+  position: relative;
   width: 210mm;
   min-height: 297mm;
   padding: 5mm;
@@ -489,5 +495,21 @@ const print = () => window.print()
 
 .backsides {
   margin-top: 16px;
+}
+
+.corner-marker {
+  position: absolute;
+  bottom: 4mm;
+  font-size: 6pt;
+  color: #bbb;
+  letter-spacing: 0.5px;
+}
+
+.corner-marker--right {
+  right: 4mm;
+}
+
+.corner-marker--left {
+  left: 4mm;
 }
 </style>
