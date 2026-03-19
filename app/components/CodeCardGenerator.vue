@@ -11,16 +11,6 @@
         </v-col>
       </v-row>
 
-      <v-row v-if="hasIncompleteRow">
-        <v-col>
-          <v-alert
-            text="If you have less than three code cards in a row, the background is not printed correctly for that row, because of long edge flipping."
-            type="warning"
-            variant="tonal"
-          />
-        </v-col>
-      </v-row>
-
       <v-row>
         <v-col cols="12">
           <v-text-field
@@ -201,22 +191,24 @@
       <div v-if="backsideType !== 'off'" class="a4-preview backsides">
         <div class="cards-grid">
           <div
-            v-for="code in backOrder(page)"
-            :key="'back-' + code"
+            v-for="(code, i) in backOrder(page)"
+            :key="'back-' + pageIndex + '-' + i"
             class="business-card backside-card"
-            :style="cardBackgroundStyle"
+            :style="code ? cardBackgroundStyle : { border: 'none', background: 'transparent' }"
           >
-            <img v-if="backsideType === 'logo'" src="/ca_program.png" class="backside-img" />
-            <img
-              v-else-if="backsideType === 'qr' && qrDataUrls[code]"
-              :src="qrDataUrls[code]"
-              class="backside-qr"
-            />
-            <img
-              v-else-if="backsideType === 'custom' && customBacksideUrl"
-              :src="customBacksideUrl"
-              class="backside-img"
-            />
+            <template v-if="code">
+              <img v-if="backsideType === 'logo'" src="/ca_program.png" class="backside-img">
+              <img
+                v-else-if="backsideType === 'qr' && qrDataUrls[code]"
+                :src="qrDataUrls[code]"
+                class="backside-qr"
+              >
+              <img
+                v-else-if="backsideType === 'custom' && customBacksideUrl"
+                :src="customBacksideUrl"
+                class="backside-img"
+              >
+            </template>
           </div>
         </div>
       </div>
@@ -292,13 +284,13 @@ const pages = computed(() => {
   return result
 })
 
-const hasIncompleteRow = computed(() => pages.value.some((page) => page.length % 3 !== 0))
-
 // Reverse each row of 3 so backs align when printed double-sided (flip on long edge)
-const backOrder = (page: string[]) => {
-  const result: string[] = []
+const backOrder = (page: string[]): (string | null)[] => {
+  const result: (string | null)[] = []
   for (let i = 0; i < page.length; i += 3) {
-    result.push(...page.slice(i, i + 3).toReversed())
+    const row: (string | null)[] = page.slice(i, i + 3)
+    while (row.length < 3) row.push(null)
+    result.push(...row.toReversed())
   }
   return result
 }
