@@ -81,6 +81,18 @@
                     </v-icon>
                   </template>
                 </v-tooltip>
+
+                <v-tooltip v-if="cardBgImageUrl" location="top" text="Remove background image">
+                  <template #activator="{ props }">
+                    <v-icon
+                      v-bind="props"
+                      style="cursor: pointer"
+                      @click="clearBgImage"
+                    >
+                      mdi-close
+                    </v-icon>
+                  </template>
+                </v-tooltip>
               </template>
             </v-text-field>
             <input
@@ -286,6 +298,11 @@ const resizeImageToDataUrl = (file: File, width: number, height: number): Promis
     }
     img.src = objectUrl
   })
+
+const clearBgImage = () => {
+  cardBgImageUrl.value = null
+  cardBackgroundColor.value = ''
+}
 
 const onBgImageChange = async (e: Event) => {
   const file = (e.target as HTMLInputElement).files?.[0]
