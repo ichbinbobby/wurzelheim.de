@@ -58,8 +58,37 @@
               v-model="cardBackgroundColor"
               label="Card background"
               variant="solo-filled"
-              hint="Hex color (e.g. #ff0000). Leave empty for none. Activate background graphics in the print dialog."
+              hint="Hex color (e.g. #ff0000) or upload an image. Leave empty for none. Activate background graphics in the print dialog."
               persistent-hint
+            >
+              <template #append-inner>
+                <v-tooltip
+                  location="top"
+                  :text="
+                    cardBgImageUrl
+                      ? 'Image loaded — click to replace'
+                      : 'Upload background image (744×396px)'
+                  "
+                >
+                  <template #activator="{ props }">
+                    <v-icon
+                      v-bind="props"
+                      :color="cardBgImageUrl ? 'primary' : undefined"
+                      style="cursor: pointer"
+                      @click="bgImageInput?.click()"
+                    >
+                      {{ cardBgImageUrl ? 'mdi-image-check' : 'mdi-image-plus' }}
+                    </v-icon>
+                  </template>
+                </v-tooltip>
+              </template>
+            </v-text-field>
+            <input
+              ref="bgImageInput"
+              type="file"
+              accept="image/*"
+              style="display: none"
+              @change="onBgImageChange"
             />
           </v-col>
         </v-row>
@@ -97,7 +126,7 @@
 
               <template v-if="backsideType === 'custom'">
                 <v-btn variant="tonal" prepend-icon="mdi-upload" @click="fileInput?.click()">
-                  {{ customBacksideUrl ? 'Change image' : 'Upload' }}
+                  {{ customBacksideUrl ? 'Change image' : 'Upload custom logo' }}
                 </v-btn>
                 <input
                   ref="fileInput"
@@ -240,9 +269,38 @@ const getExpiryDate = () => {
 }
 const expiryDate = ref(getExpiryDate())
 const cardBackgroundColor = ref('')
+const cardBgImageUrl = ref<string | null>(null)
+const bgImageInput = ref<HTMLInputElement | null>(null)
+
+const resizeImageToDataUrl = (file: File, width: number, height: number): Promise<string> =>
+  new Promise((resolve) => {
+    const img = new Image()
+    const objectUrl = URL.createObjectURL(file)
+    img.onload = () => {
+      URL.revokeObjectURL(objectUrl)
+      const canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      canvas.getContext('2d')!.drawImage(img, 0, 0, width, height)
+      resolve(canvas.toDataURL('image/jpeg', 0.85))
+    }
+    img.src = objectUrl
+  })
+
+const onBgImageChange = async (e: Event) => {
+  const file = (e.target as HTMLInputElement).files?.[0]
+  if (!file) return
+  cardBackgroundColor.value = file.name
+  cardBgImageUrl.value = await resizeImageToDataUrl(file, 744, 396)
+}
 
 const cardBackgroundStyle = computed(() => ({
-  backgroundColor: cardBackgroundColor.value || 'transparent'
+  backgroundColor: cardBackgroundColor.value || 'transparent',
+  ...(cardBgImageUrl.value && {
+    backgroundImage: `url(${cardBgImageUrl.value})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
+  })
 }))
 
 const items = [
