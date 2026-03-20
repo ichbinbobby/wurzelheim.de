@@ -4,7 +4,7 @@
       <v-row>
         <v-col>
           <v-alert
-            text="This tool will take your monthly digital codes and generate a PDF for you to print."
+            text="This tool will take your monthly digital codes and generate a PDF for you to print. One page fits 24 codes, which is 3 columns and 8 rows."
             type="info"
             variant="tonal"
           />
@@ -56,7 +56,7 @@
             label="Codes"
             variant="solo-filled"
             rows="3"
-            :hint="`If you paste 120 codes it will create five pages with 3 columns and 8 rows.${codes.length ? ` You have pasted ${codes.length} code${codes.length === 1 ? '' : 's'}.` : ''}`"
+            :hint="`If you paste 120 codes it will create five pages with 3 columns and 8 rows.${codes.length ? ` You have pasted ${codes.length} code${codes.length === 1 ? '' : 's'} across ${pages.length} page${pages.length === 1 ? '' : 's'}.` : ''}`"
             persistent-hint
             auto-grow
           />
