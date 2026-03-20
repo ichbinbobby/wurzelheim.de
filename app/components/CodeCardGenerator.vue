@@ -12,7 +12,7 @@
       </v-row>
 
       <v-row>
-        <v-col cols="12">
+        <v-col cols="9">
           <v-text-field
             v-model="title"
             label="Title"
@@ -22,7 +22,19 @@
             hint="Name of your Campfire group"
             persistent-hint
           />
+        </v-col>
 
+        <v-col cols="3">
+          <v-text-field
+            v-model="titleColor"
+            label="Title color"
+            variant="solo-filled"
+            hint="Hex color (e.g. #ff0000)"
+            persistent-hint
+          />
+        </v-col>
+
+        <v-col cols="12">
           <div class="d-flex align-center gap-3 mb-2">
             <v-btn-toggle
               v-model="separator"
@@ -218,7 +230,7 @@
           >
             <template v-if="cardLayout === 'eco'">
               <div class="card-content">
-                <div class="card-title">{{ title }}</div>
+                <div class="card-title" :style="{ color: titleColor }">{{ title }}</div>
                 <div class="card-code">{{ code }}</div>
                 <div v-show="itemsDisplay !== 'none'" class="card-items">
                   <template v-if="itemsDisplay === 'images'">
@@ -231,7 +243,7 @@
               <img v-if="qrDataUrls[code]" :src="qrDataUrls[code]" class="card-qr" />
             </template>
             <template v-else>
-              <div class="card-title">{{ title }}</div>
+              <div class="card-title" :style="{ color: titleColor }">{{ title }}</div>
               <div class="card-code">{{ code }}</div>
               <div v-show="itemsDisplay !== 'none'" class="card-items">
                 <template v-if="itemsDisplay === 'images'">
@@ -283,6 +295,7 @@ import QRCode from 'qrcode'
 const itemsDisplay = ref<'images' | 'text' | 'none'>('images')
 const itemsText = 'Raid Pass, Star Piece, Incubator and Incense'
 const title = ref('Wurzelheim Alexanderplatz')
+const titleColor = ref('#000000')
 const rawInput = ref('')
 const separator = ref(',')
 const getExpiryDate = () => {
