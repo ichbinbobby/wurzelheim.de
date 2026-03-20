@@ -491,9 +491,10 @@ const print = () => window.print()
   }
 
   .cards-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-columns: repeat(3, 62mm) !important;
     gap: 0 !important;
     margin-top: 0 !important;
+    justify-content: center !important;
   }
 
   .business-card {
@@ -520,6 +521,7 @@ const print = () => window.print()
   display: grid;
   grid-template-columns: repeat(auto-fill, 62mm);
   gap: 2mm;
+  justify-content: center;
 }
 
 .business-card {
