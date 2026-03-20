@@ -67,6 +67,20 @@
               hint="Hex color (e.g. #ff0000) or upload an image. Leave empty for none. Activate background graphics in the print dialog."
               persistent-hint
             >
+              <template #append>
+                <v-btn-toggle
+                  v-if="cardBackgroundColor || cardBgImageUrl"
+                  v-model="bgApplyTo"
+                  multiple
+                  mandatory
+                  color="primary"
+                  variant="outlined"
+                >
+                  <v-btn value="front">Front</v-btn>
+                  <v-btn value="back">Back</v-btn>
+                </v-btn-toggle>
+              </template>
+
               <template #append-inner>
                 <v-tooltip
                   location="top"
@@ -200,7 +214,7 @@
             :key="code"
             class="business-card"
             :class="{ 'business-card--eco': cardLayout === 'eco' }"
-            :style="cardBackgroundStyle"
+            :style="frontCardStyle"
           >
             <template v-if="cardLayout === 'eco'">
               <div class="card-content">
@@ -240,7 +254,7 @@
             v-for="(code, i) in backOrder(page)"
             :key="'back-' + pageIndex + '-' + i"
             class="business-card backside-card"
-            :style="code ? cardBackgroundStyle : { border: 'none', background: 'transparent' }"
+            :style="code ? backCardStyle : { border: 'none', background: 'transparent' }"
           >
             <template v-if="code">
               <img v-if="backsideType === 'logo'" src="/ca_program.png" class="backside-img" />
@@ -284,6 +298,7 @@ const getExpiryDate = () => {
 const expiryDate = ref(getExpiryDate())
 const cardBackgroundColor = ref('')
 const cardBgImageUrl = ref<string | null>(null)
+const bgApplyTo = ref<string[]>(['front', 'back'])
 const bgImageInput = ref<HTMLInputElement | null>(null)
 
 const resizeImageToDataUrl = (file: File, width: number, height: number): Promise<string> =>
@@ -321,6 +336,13 @@ const cardBackgroundStyle = computed(() => ({
     backgroundPosition: 'center'
   })
 }))
+
+const frontCardStyle = computed(() =>
+  bgApplyTo.value.includes('front') ? cardBackgroundStyle.value : {}
+)
+const backCardStyle = computed(() =>
+  bgApplyTo.value.includes('back') ? cardBackgroundStyle.value : {}
+)
 
 const items = [
   '/item_paid_raid_ticket.png',
