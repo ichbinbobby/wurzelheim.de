@@ -27,6 +27,7 @@
         <v-col cols="3">
           <v-text-field
             v-model="titleColor"
+            clearable
             label="Title color"
             variant="solo-filled"
             hint="Hex color (e.g. #ff0000)"
@@ -62,12 +63,23 @@
         </v-col>
 
         <v-row>
-          <v-col cols="6">
+          <v-col cols="4">
             <v-text-field
               v-model="expiryDate"
               clearable
               label="Expiry date"
               variant="solo-filled"
+            />
+          </v-col>
+
+          <v-col cols="2">
+            <v-text-field
+              v-model="expiryColor"
+              clearable
+              label="Expiry date color"
+              variant="solo-filled"
+              hint="Hex color"
+              persistent-hint
             />
           </v-col>
 
@@ -229,18 +241,20 @@
             :style="frontCardStyle"
           >
             <template v-if="cardLayout === 'eco'">
-              <div class="card-content">
-                <div class="card-title" :style="{ color: titleColor }">{{ title }}</div>
-                <div class="card-code">{{ code }}</div>
-                <div v-show="itemsDisplay !== 'none'" class="card-items">
-                  <template v-if="itemsDisplay === 'images'">
-                    <img v-for="item in items" :key="item" :src="item" class="card-item-icon" />
-                  </template>
-                  <span v-else class="card-items-text">{{ itemsText }}</span>
+              <div class="card-title" :style="{ color: titleColor }">{{ title }}</div>
+              <div class="card-middle">
+                <div class="card-content">
+                  <div class="card-code">{{ code }}</div>
+                  <div v-show="itemsDisplay !== 'none'" class="card-items">
+                    <template v-if="itemsDisplay === 'images'">
+                      <img v-for="item in items" :key="item" :src="item" class="card-item-icon" />
+                    </template>
+                    <span v-else class="card-items-text">{{ itemsText }}</span>
+                  </div>
                 </div>
-                <div class="card-expiry">{{ expiryDate }}</div>
+                <img v-if="qrDataUrls[code]" :src="qrDataUrls[code]" class="card-qr" />
               </div>
-              <img v-if="qrDataUrls[code]" :src="qrDataUrls[code]" class="card-qr" />
+              <div class="card-expiry" :style="{ color: expiryColor }">{{ expiryDate }}</div>
             </template>
             <template v-else>
               <div class="card-title" :style="{ color: titleColor }">{{ title }}</div>
@@ -251,7 +265,9 @@
                 </template>
                 <span v-else class="card-items-text">{{ itemsText }}</span>
               </div>
-              <div class="card-expiry">Code will expire {{ expiryDate }}</div>
+              <div class="card-expiry" :style="{ color: expiryColor }">
+                Code will expire {{ expiryDate }}
+              </div>
             </template>
           </div>
         </div>
@@ -309,6 +325,7 @@ const getExpiryDate = () => {
   return `${month} ${day}${suffix} ${year} at 12:00:00 AM UTC`
 }
 const expiryDate = ref(getExpiryDate())
+const expiryColor = ref('#000000')
 const cardBackgroundColor = ref('')
 const cardBgImageUrl = ref<string | null>(null)
 const bgApplyTo = ref<string[]>(['front', 'back'])
@@ -524,9 +541,22 @@ const print = () => window.print()
 
 /* Eco layout: text left, QR right */
 .business-card--eco {
-  flex-direction: row;
-  align-items: stretch;
+  flex-direction: column;
+  justify-content: space-between;
   text-align: left;
+  align-items: flex-start;
+}
+
+.business-card--eco .card-title,
+.business-card--eco .card-expiry,
+.business-card--eco .card-items {
+  padding-left: 2mm;
+}
+
+.card-middle {
+  display: flex;
+  flex: 1;
+  align-items: center;
   gap: 2mm;
 }
 
@@ -534,13 +564,14 @@ const print = () => window.print()
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 2mm;
   min-width: 0;
 }
 
 .card-qr {
-  width: 27mm;
-  height: 27mm;
+  width: 20mm;
+  height: 20mm;
   object-fit: contain;
   align-self: center;
   flex-shrink: 0;
