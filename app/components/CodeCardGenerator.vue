@@ -18,6 +18,7 @@
             label="Title"
             variant="solo-filled"
             class="mb-3"
+            clearable
             hint="Name of your Campfire group"
             persistent-hint
           />
@@ -50,7 +51,12 @@
 
         <v-row>
           <v-col cols="6">
-            <v-text-field v-model="expiryDate" label="Expiry date" variant="solo-filled" />
+            <v-text-field
+              v-model="expiryDate"
+              clearable
+              label="Expiry date"
+              variant="solo-filled"
+            />
           </v-col>
 
           <v-col cols="6">
