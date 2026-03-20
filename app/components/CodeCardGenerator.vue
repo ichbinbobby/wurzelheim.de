@@ -84,11 +84,7 @@
 
                 <v-tooltip v-if="cardBgImageUrl" location="top" text="Remove background image">
                   <template #activator="{ props }">
-                    <v-icon
-                      v-bind="props"
-                      style="cursor: pointer"
-                      @click="clearBgImage"
-                    >
+                    <v-icon v-bind="props" style="cursor: pointer" @click="clearBgImage">
                       mdi-close
                     </v-icon>
                   </template>
@@ -523,6 +519,9 @@ const print = () => window.print()
   font-family: monospace;
   font-size: 10pt;
   letter-spacing: 1px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 25px;
+  padding: 1mm 2mm;
 }
 
 .card-items {
