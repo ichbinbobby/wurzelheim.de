@@ -4,7 +4,7 @@
       <v-row>
         <v-col>
           <v-alert
-            text="This tool will take your monthly digital codes and generate a PDF for you to print. One page fits 24 codes, which is 3 columns and 8 rows."
+            text="This tool will take your monthly digital codes and generate a PDF for you to print. One page fits 24 codes, which is 3 columns and 8 rows in europe/A4 format."
             type="info"
             variant="tonal"
           />
@@ -36,7 +36,7 @@
         </v-col>
 
         <v-col cols="12">
-          <div class="d-flex align-center gap-3 mb-2">
+          <div class="mb-2">
             <v-btn-toggle
               v-model="separator"
               mandatory
@@ -47,8 +47,7 @@
               <v-btn value=",">Comma</v-btn>
               <v-btn value=" ">Space</v-btn>
             </v-btn-toggle>
-
-            <p class="ml-4">Select your separator</p>
+            <p class="text-label-medium text-medium-emphasis mt-2 ml-4">Select your separator</p>
           </div>
 
           <v-textarea
@@ -474,6 +473,8 @@ const print = () => window.print()
     background: white !important;
     color: black !important;
     padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
   }
 
   .a4-preview {
@@ -493,8 +494,9 @@ const print = () => window.print()
   .cards-grid {
     grid-template-columns: repeat(3, 62mm) !important;
     gap: 0 !important;
-    margin-top: 0 !important;
-    justify-content: center !important;
+    width: 186mm !important;
+    margin: 0 auto !important;
+    justify-content: unset !important;
   }
 
   .business-card {
