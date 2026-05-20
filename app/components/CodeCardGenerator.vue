@@ -490,7 +490,17 @@ watch(
   { immediate: true }
 )
 
-const print = () => window.print()
+const print = () => {
+  ;(window as Window & { gtag?: (...args: unknown[]) => void }).gtag?.('event', 'generate_pdf', {
+    card_layout: cardLayout.value,
+    backside_type: backsideType.value,
+    code_count: codes.value.length,
+    page_count: pages.value.length,
+    title: title.value,
+    expiry_date: expiryDate.value,
+  })
+  window.print()
+}
 </script>
 
 <style>
