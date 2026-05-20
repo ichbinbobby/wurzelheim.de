@@ -36,19 +36,45 @@
         </v-col>
 
         <v-col cols="12">
-          <div class="mb-2">
-            <v-btn-toggle
-              v-model="separator"
-              mandatory
-              color="primary"
-              density="compact"
-              variant="outlined"
-            >
-              <v-btn value=",">Comma</v-btn>
-              <v-btn value=" ">Space</v-btn>
-            </v-btn-toggle>
-            <p class="text-label-medium text-medium-emphasis mt-2 ml-4">Select your separator</p>
-          </div>
+          <v-row align="end" class="mb-2">
+            <v-col cols="auto">
+              <div>
+                <v-btn-toggle
+                  v-model="separator"
+                  mandatory
+                  color="primary"
+                  density="compact"
+                  variant="outlined"
+                >
+                  <v-btn value=",">Comma</v-btn>
+                  <v-btn value=" ">Space</v-btn>
+                </v-btn-toggle>
+                <p class="text-label-medium text-medium-emphasis mt-2 ml-4">
+                  Select your separator
+                </p>
+              </div>
+            </v-col>
+            <v-col cols="2">
+              <v-text-field
+                v-model="codeFontColor"
+                clearable
+                label="Code font color"
+                variant="solo-filled"
+                hint="Hex color (e.g. #ff0000)"
+                persistent-hint
+              />
+            </v-col>
+            <v-col cols="2">
+              <v-text-field
+                v-model="codeBackgroundColor"
+                clearable
+                label="Code background"
+                variant="solo-filled"
+                hint="Hex color (e.g. #ff0000)"
+                persistent-hint
+              />
+            </v-col>
+          </v-row>
 
           <v-textarea
             v-model="rawInput"
@@ -243,7 +269,15 @@
               <div class="card-title" :style="{ color: titleColor }">{{ title }}</div>
               <div class="card-middle">
                 <div class="card-content">
-                  <div class="card-code">{{ code }}</div>
+                  <div
+                    class="card-code"
+                    :style="{
+                      color: codeFontColor || undefined,
+                      background: codeBackgroundColor || undefined
+                    }"
+                  >
+                    {{ code }}
+                  </div>
                   <div v-show="itemsDisplay !== 'none'" class="card-items">
                     <template v-if="itemsDisplay === 'images'">
                       <img v-for="item in items" :key="item" :src="item" class="card-item-icon" />
@@ -257,7 +291,15 @@
             </template>
             <template v-else>
               <div class="card-title" :style="{ color: titleColor }">{{ title }}</div>
-              <div class="card-code">{{ code }}</div>
+              <div
+                class="card-code"
+                :style="{
+                  color: codeFontColor || undefined,
+                  background: codeBackgroundColor || undefined
+                }"
+              >
+                {{ code }}
+              </div>
               <div v-show="itemsDisplay !== 'none'" class="card-items">
                 <template v-if="itemsDisplay === 'images'">
                   <img v-for="item in items" :key="item" :src="item" class="card-item-icon" />
@@ -325,6 +367,8 @@ const getExpiryDate = () => {
 }
 const expiryDate = ref(getExpiryDate())
 const expiryColor = ref('#000000')
+const codeFontColor = ref('#000000')
+const codeBackgroundColor = ref('#ffffff')
 const cardBackgroundColor = ref('')
 const cardBgImageUrl = ref<string | null>(null)
 const bgApplyTo = ref<string[]>(['front', 'back'])
