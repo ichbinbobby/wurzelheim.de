@@ -7,9 +7,9 @@
 
       <v-spacer />
 
-      <v-btn prepend-icon="mdi-pokeball" to="/meetup-creator"> Meetup Creator </v-btn>
+      <v-btn prepend-icon="mdi-pokeball" to="/meetup-creator">{{ t('nav.meetup_creator') }}</v-btn>
 
-      <v-btn prepend-icon="mdi-file-pdf-box" to="/code-card-generator"> Code Card Generator </v-btn>
+      <v-btn prepend-icon="mdi-file-pdf-box" to="/code-card-generator">{{ t('nav.code_card_generator') }}</v-btn>
 
       <v-btn
         prepend-icon="mdi-campfire"
@@ -34,7 +34,7 @@
       <v-btn
         :prepend-icon="theme.name.value === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
         class="mr-3"
-        text="Toggle Theme"
+        :text="t('nav.toggle_theme')"
         slim
         @click="theme.toggle()"
       />
@@ -54,6 +54,7 @@
 <script setup lang="ts">
 import { useTheme } from 'vuetify'
 
+const { t } = useI18n()
 const theme = useTheme()
 const messages = useMessagesStore()
 </script>

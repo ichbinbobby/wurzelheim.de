@@ -1,4 +1,9 @@
 {
+  "nav": {
+    "meetup_creator": "Meetup Creator",
+    "code_card_generator": "Code Card Generator",
+    "toggle_theme": "Toggle Theme"
+  },
   "home": {
     "welcome_to": "Welcome to",
     "tagline": "Tools to make life for Community Ambassadors easier"
