@@ -4,7 +4,7 @@
       <v-row>
         <v-col>
           <v-alert
-            text="This tool will take your monthly digital codes and generate a PDF for you to print. One page fits 24 codes, which is 3 columns and 8 rows in europe/A4 format."
+            :text="t('ccg.alert')"
             type="info"
             variant="tonal"
           />
@@ -15,11 +15,11 @@
         <v-col cols="9">
           <v-text-field
             v-model="title"
-            label="Title"
+            :label="t('ccg.title_label')"
             variant="solo-filled"
             class="mb-3"
             clearable
-            hint="Name of your Campfire group"
+            :hint="t('ccg.title_hint')"
             persistent-hint
           />
         </v-col>
@@ -28,9 +28,9 @@
           <v-text-field
             v-model="titleColor"
             clearable
-            label="Title color"
+            :label="t('ccg.title_color_label')"
             variant="solo-filled"
-            hint="Hex color (e.g. #ff0000)"
+            :hint="t('ccg.hex_color_hint')"
             persistent-hint
           />
         </v-col>
@@ -46,11 +46,11 @@
                   density="compact"
                   variant="outlined"
                 >
-                  <v-btn value=",">Comma</v-btn>
-                  <v-btn value=" ">Space</v-btn>
+                  <v-btn value=",">{{ t('ccg.separator_comma') }}</v-btn>
+                  <v-btn value=" ">{{ t('ccg.separator_space') }}</v-btn>
                 </v-btn-toggle>
                 <p class="text-label-medium text-medium-emphasis mt-2 ml-4">
-                  Select your separator
+                  {{ t('ccg.separator_hint') }}
                 </p>
               </div>
             </v-col>
@@ -58,9 +58,9 @@
               <v-text-field
                 v-model="codeFontColor"
                 clearable
-                label="Code font color"
+                :label="t('ccg.code_font_color_label')"
                 variant="solo-filled"
-                hint="Hex color (e.g. #ff0000)"
+                :hint="t('ccg.hex_color_hint')"
                 persistent-hint
               />
             </v-col>
@@ -68,9 +68,9 @@
               <v-text-field
                 v-model="codeBackgroundColor"
                 clearable
-                label="Code background"
+                :label="t('ccg.code_background_label')"
                 variant="solo-filled"
-                hint="Hex color (e.g. #ff0000)"
+                :hint="t('ccg.hex_color_hint')"
                 persistent-hint
               />
             </v-col>
@@ -78,10 +78,10 @@
 
           <v-textarea
             v-model="rawInput"
-            label="Codes"
+            :label="t('ccg.codes_label')"
             variant="solo-filled"
             rows="3"
-            :hint="`If you paste 120 codes it will create five pages with 3 columns and 8 rows.${codes.length ? ` You have pasted ${codes.length} code${codes.length === 1 ? '' : 's'} across ${pages.length} page${pages.length === 1 ? '' : 's'}.` : ''}`"
+            :hint="codes.length ? t('ccg.codes_hint_base') + ' ' + t('ccg.codes_hint_count', { count: codes.length, pages: pages.length }) : t('ccg.codes_hint_base')"
             persistent-hint
             auto-grow
           />
@@ -92,7 +92,7 @@
             <v-text-field
               v-model="expiryDate"
               clearable
-              label="Expiry date"
+              :label="t('ccg.expiry_date_label')"
               variant="solo-filled"
             />
           </v-col>
@@ -101,9 +101,9 @@
             <v-text-field
               v-model="expiryColor"
               clearable
-              label="Expiry date color"
+              :label="t('ccg.expiry_color_label')"
               variant="solo-filled"
-              hint="Hex color"
+              :hint="t('ccg.hex_color_short_hint')"
               persistent-hint
             />
           </v-col>
@@ -111,9 +111,9 @@
           <v-col cols="6">
             <v-text-field
               v-model="cardBackgroundColor"
-              label="Card background"
+              :label="t('ccg.card_background_label')"
               variant="solo-filled"
-              hint="Hex color (e.g. #ff0000) or upload an image. Leave empty for none. Activate background graphics in the print dialog."
+              :hint="t('ccg.card_background_hint')"
               persistent-hint
             >
               <template #append>
@@ -125,19 +125,15 @@
                   color="primary"
                   variant="outlined"
                 >
-                  <v-btn value="front">Front</v-btn>
-                  <v-btn value="back">Back</v-btn>
+                  <v-btn value="front">{{ t('ccg.front') }}</v-btn>
+                  <v-btn value="back">{{ t('ccg.back') }}</v-btn>
                 </v-btn-toggle>
               </template>
 
               <template #append-inner>
                 <v-tooltip
                   location="top"
-                  :text="
-                    cardBgImageUrl
-                      ? 'Image loaded — click to replace'
-                      : 'Upload background image (744×396px)'
-                  "
+                  :text="cardBgImageUrl ? t('ccg.image_loaded_tooltip') : t('ccg.upload_image_tooltip')"
                 >
                   <template #activator="{ props }">
                     <v-icon
@@ -151,7 +147,7 @@
                   </template>
                 </v-tooltip>
 
-                <v-tooltip v-if="cardBgImageUrl" location="top" text="Remove background image">
+                <v-tooltip v-if="cardBgImageUrl" location="top" :text="t('ccg.remove_image_tooltip')">
                   <template #activator="{ props }">
                     <v-icon v-bind="props" style="cursor: pointer" @click="clearBgImage">
                       mdi-close
@@ -195,15 +191,15 @@
                 density="compact"
                 variant="outlined"
               >
-                <v-btn value="off">No backside</v-btn>
+                <v-btn value="off">{{ t('ccg.no_backside') }}</v-btn>
                 <v-btn value="logo">CA Logo</v-btn>
                 <v-btn v-if="cardLayout === 'fancy'" value="qr">QR Code</v-btn>
-                <v-btn value="custom">Custom</v-btn>
+                <v-btn value="custom">{{ t('ccg.custom') }}</v-btn>
               </v-btn-toggle>
 
               <template v-if="backsideType === 'custom'">
                 <v-btn variant="tonal" prepend-icon="mdi-upload" @click="fileInput?.click()">
-                  {{ customBacksideUrl ? 'Change image' : 'Upload custom logo' }}
+                  {{ customBacksideUrl ? t('ccg.change_image') : t('ccg.upload_custom_logo') }}
                 </v-btn>
                 <input
                   ref="fileInput"
@@ -223,9 +219,9 @@
                 density="compact"
                 variant="outlined"
               >
-                <v-btn value="images">Images</v-btn>
-                <v-btn value="text">Text</v-btn>
-                <v-btn value="none">None</v-btn>
+                <v-btn value="images">{{ t('ccg.images') }}</v-btn>
+                <v-btn value="text">{{ t('ccg.text') }}</v-btn>
+                <v-btn value="none">{{ t('ccg.none') }}</v-btn>
               </v-btn-toggle>
               <img v-for="item in items" :key="item" :src="item" class="preview-icon" />
             </v-col>
@@ -240,15 +236,17 @@
           :disabled="!codes.length"
           @click="print"
         >
-          Save as PDF
+          {{ t('ccg.save_as_pdf') }}
         </v-btn>
 
         <div class="ml-4">
-          Opens your printer dialog. To save as PDF select "Save as PDF".
+          {{ t('ccg.print_hint') }}
           <span v-if="backsideType !== 'off'">
-            For double-sided printing, enable <strong>Two-sided</strong> and set flip to
-            <strong>Long edge</strong>.</span
-          >
+            <i18n-t keypath="ccg.double_sided_hint" tag="span">
+              <template #twosided><strong>Two-sided</strong></template>
+              <template #longedge><strong>Long edge</strong></template>
+            </i18n-t>
+          </span>
         </div>
       </div>
 
@@ -307,7 +305,7 @@
                 <span v-else class="card-items-text">{{ itemsText }}</span>
               </div>
               <div class="card-expiry" :style="{ color: expiryColor }">
-                Code will expire {{ expiryDate }}
+                {{ t('ccg.code_expires', { date: expiryDate }) }}
               </div>
             </template>
           </div>
@@ -348,6 +346,8 @@
 
 <script setup lang="ts">
 import QRCode from 'qrcode'
+
+const { t } = useI18n()
 
 const itemsDisplay = ref<'images' | 'text' | 'none'>('images')
 const itemsText = 'Raid Pass, Star Piece, Incubator and Incense'
