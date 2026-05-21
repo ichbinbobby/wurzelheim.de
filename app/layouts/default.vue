@@ -45,6 +45,7 @@
     <AppFooter />
 
     <v-snackbar-queue v-model="messages.queue" />
+    <CookieConsent />
   </v-app>
 </template>
 
