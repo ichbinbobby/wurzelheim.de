@@ -29,6 +29,8 @@
         Pokemon GO Map
       </v-btn>
 
+      <LanguageSwitcher />
+
       <v-btn
         :prepend-icon="theme.name.value === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
         class="mr-3"

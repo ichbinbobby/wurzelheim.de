@@ -7,16 +7,17 @@
     color="surface-variant"
     elevation="8"
   >
-    We use Google Analytics to understand how this site is used. Do you agree to anonymous tracking?
+    {{ t('cookie.message') }}
 
     <template #actions>
-      <v-btn variant="text" @click="reject">Reject</v-btn>
-      <v-btn color="primary" variant="tonal" @click="accept">Accept</v-btn>
+      <v-btn variant="text" @click="reject">{{ t('cookie.reject') }}</v-btn>
+      <v-btn color="primary" variant="tonal" @click="accept">{{ t('cookie.accept') }}</v-btn>
     </template>
   </v-snackbar>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n()
 const STORAGE_KEY = 'cookie_consent'
 
 const visible = ref(false)
