@@ -1,4 +1,8 @@
 {
+  "home": {
+    "welcome_to": "Benvenuto su",
+    "tagline": "Strumenti per semplificare la vita dei Community Ambassadors"
+  },
   "cookie": {
     "message": "Utilizziamo Google Analytics per capire come viene utilizzato questo sito. Accetti il tracciamento anonimo?",
     "accept": "Accetta",

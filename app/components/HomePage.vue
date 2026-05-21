@@ -4,7 +4,7 @@
       <v-img class="mb-4" height="200" src="/ca_program.png" />
 
       <div class="mb-8 text-center">
-        <div class="text-body-medium font-weight-light mb-n1">Welcome to</div>
+        <div class="text-body-medium font-weight-light mb-n1">{{ t('home.welcome_to') }}</div>
         <h1 class="text-display-medium font-weight-bold">Wurzelheim</h1>
       </div>
 
@@ -12,11 +12,10 @@
         <v-col cols="12">
           <v-card
             class="py-4"
-            max-width="600"
             color="surface-variant"
             prepend-icon="mdi-pokeball"
             rounded="lg"
-            title="Tools to make life for Community Ambassadors easier"
+            :title="t('home.tagline')"
             variant="tonal"
           />
         </v-col>
@@ -25,4 +24,6 @@
   </v-container>
 </template>
 
-<script setup></script>
+<script setup lang="ts">
+const { t } = useI18n()
+</script>
