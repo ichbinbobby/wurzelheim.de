@@ -78,7 +78,7 @@
 
           <v-textarea
             v-model="rawInput"
-            :label="t('ccg.codes_label')"
+            :label="codes.length ? `${t('ccg.codes_label')} (${codes.length})` : t('ccg.codes_label')"
             variant="solo-filled"
             rows="3"
             :hint="codes.length ? t('ccg.codes_hint_base') + ' ' + t('ccg.codes_hint_count', { count: codes.length, pages: pages.length }) : t('ccg.codes_hint_base')"
