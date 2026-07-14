@@ -32,6 +32,9 @@
     "expiry_color_label": "Expiry date color",
     "card_background_label": "Card background",
     "card_background_hint": "Hex color (e.g. #ff0000) or upload an image. Leave empty for none. Activate background graphics in the print dialog.",
+    "layout_label": "Card layout",
+    "backside_label": "Backside",
+    "items_label": "Items shown",
     "front": "Front",
     "back": "Back",
     "image_loaded_tooltip": "Image loaded — click to replace",
@@ -47,6 +50,8 @@
     "save_as_pdf": "Save as PDF",
     "print_hint": "Opens your printer dialog. To save as PDF select \"Save as PDF\".",
     "double_sided_hint": "For double-sided printing, enable {twosided} and set flip to {longedge}.",
-    "code_expires": "Code will expire {date}"
+    "code_expires": "Code will expire {date}",
+    "duplex_offset_label": "Backside offset (mm)",
+    "duplex_offset_alert": "Most duplex printers don't line up the back side perfectly with the front — the paper is re-fed through a separate path for the second pass, which typically causes a small, constant shift. This isn't a bug in this tool. To calibrate: print a double-sided test page, hold it up to the light, and measure how far off a code card on the back is from its front counterpart, in mm. Enter that value here (negative shifts the backside left, positive shifts it right), then print again to confirm. This value is specific to your printer (and roughly its paper type/settings), so recalibrate if you switch printers."
   }
 }

@@ -32,6 +32,9 @@
     "expiry_color_label": "Colore della data di scadenza",
     "card_background_label": "Sfondo della carta",
     "card_background_hint": "Colore hex (es. #ff0000) o immagine. Lascia vuoto per nessuno sfondo. Attiva la grafica di sfondo nella finestra di stampa.",
+    "layout_label": "Layout carta",
+    "backside_label": "Retro",
+    "items_label": "Oggetti mostrati",
     "front": "Fronte",
     "back": "Retro",
     "image_loaded_tooltip": "Immagine caricata — clicca per sostituire",
@@ -47,6 +50,8 @@
     "save_as_pdf": "Salva come PDF",
     "print_hint": "Apre la finestra di stampa. Per salvare come PDF seleziona \"Salva come PDF\".",
     "double_sided_hint": "Per la stampa fronte-retro, abilita {twosided} e imposta il ribaltamento su {longedge}.",
-    "code_expires": "Il codice scade il {date}"
+    "code_expires": "Il codice scade il {date}",
+    "duplex_offset_label": "Scostamento retro (mm)",
+    "duplex_offset_alert": "La maggior parte delle stampanti fronte-retro non allinea perfettamente il retro con il fronte — la carta viene reintrodotta attraverso un percorso separato per il secondo passaggio, il che di solito causa un piccolo scostamento costante. Non è un bug di questo strumento. Per calibrare: stampa una pagina di prova fronte-retro, tienila controluce e misura in mm quanto una carta codice sul retro si discosta dal suo corrispondente sul fronte. Inserisci qui quel valore (negativo sposta il retro a sinistra, positivo a destra), poi ristampa per verificare. Questo valore è specifico della tua stampante (e più o meno del tipo di carta/impostazioni), quindi ricalibra se cambi stampante."
   }
 }

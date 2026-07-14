@@ -32,6 +32,9 @@
     "expiry_color_label": "Cor da data de validade",
     "card_background_label": "Fundo do cartão",
     "card_background_hint": "Cor hex (ex. #ff0000) ou imagem. Deixe vazio para nenhum fundo. Ative os gráficos de fundo no diálogo de impressão.",
+    "layout_label": "Layout do cartão",
+    "backside_label": "Verso",
+    "items_label": "Itens exibidos",
     "front": "Frente",
     "back": "Verso",
     "image_loaded_tooltip": "Imagem carregada — clique para substituir",
@@ -47,6 +50,8 @@
     "save_as_pdf": "Salvar como PDF",
     "print_hint": "Abre o diálogo de impressão. Para salvar como PDF selecione \"Salvar como PDF\".",
     "double_sided_hint": "Para impressão frente e verso, ative {twosided} e defina o giro para {longedge}.",
-    "code_expires": "O código expira em {date}"
+    "code_expires": "O código expira em {date}",
+    "duplex_offset_label": "Deslocamento do verso (mm)",
+    "duplex_offset_alert": "A maioria das impressoras frente e verso não alinha perfeitamente o verso com a frente — o papel é realimentado por um caminho separado na segunda passagem, o que costuma causar um pequeno deslocamento constante. Isso não é um bug desta ferramenta. Para calibrar: imprima uma página de teste frente e verso, segure-a contra a luz e meça em mm o quanto um cartão de código do verso se desvia do seu equivalente na frente. Insira esse valor aqui (negativo desloca o verso para a esquerda, positivo para a direita) e imprima novamente para confirmar. Esse valor é específico da sua impressora (e aproximadamente do tipo de papel/configurações), então recalibre se trocar de impressora."
   }
 }

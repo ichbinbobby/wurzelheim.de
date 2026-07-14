@@ -32,6 +32,9 @@
     "expiry_color_label": "Ablaufdatum-Farbe",
     "card_background_label": "Kartenhintergrund",
     "card_background_hint": "Hex-Farbe (z. B. #ff0000) oder Bild hochladen. Leer lassen für keinen Hintergrund. Hintergrundgrafiken im Druckdialog aktivieren.",
+    "layout_label": "Kartenlayout",
+    "backside_label": "Rückseite",
+    "items_label": "Angezeigte Items",
     "front": "Vorderseite",
     "back": "Rückseite",
     "image_loaded_tooltip": "Bild geladen — zum Ersetzen klicken",
@@ -47,6 +50,8 @@
     "save_as_pdf": "Als PDF speichern",
     "print_hint": "Öffnet den Druckdialog. Um als PDF zu speichern, wähle \"Als PDF speichern\".",
     "double_sided_hint": "Für doppelseitigen Druck {twosided} aktivieren und Wendeachse auf {longedge} setzen.",
-    "code_expires": "Code läuft ab am {date}"
+    "code_expires": "Code läuft ab am {date}",
+    "duplex_offset_label": "Rückseiten-Versatz (mm)",
+    "duplex_offset_alert": "Die meisten Duplex-Drucker richten die Rückseite nicht perfekt an der Vorderseite aus — das Papier wird für den zweiten Durchgang über einen separaten Pfad neu eingezogen, was üblicherweise zu einem kleinen, konstanten Versatz führt. Das ist kein Fehler in diesem Tool. Zum Kalibrieren: Drucke eine doppelseitige Testseite, halte sie gegen das Licht und miss in mm, wie weit eine Code-Karte auf der Rückseite von ihrem Gegenstück auf der Vorderseite abweicht. Trage diesen Wert hier ein (negativ verschiebt die Rückseite nach links, positiv nach rechts) und drucke erneut zur Kontrolle. Dieser Wert ist spezifisch für deinen Drucker (und in etwa für Papierart/Einstellungen), also bei einem Druckerwechsel neu kalibrieren."
   }
 }

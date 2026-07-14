@@ -3,11 +3,7 @@
     <div class="no-print">
       <v-row>
         <v-col>
-          <v-alert
-            :text="t('ccg.alert')"
-            type="info"
-            variant="tonal"
-          />
+          <v-alert :text="t('ccg.alert')" type="info" variant="tonal" />
         </v-col>
       </v-row>
 
@@ -78,10 +74,18 @@
 
           <v-textarea
             v-model="rawInput"
-            :label="codes.length ? `${t('ccg.codes_label')} (${codes.length})` : t('ccg.codes_label')"
+            :label="
+              codes.length ? `${t('ccg.codes_label')} (${codes.length})` : t('ccg.codes_label')
+            "
             variant="solo-filled"
             rows="3"
-            :hint="codes.length ? t('ccg.codes_hint_base') + ' ' + t('ccg.codes_hint_count', { count: codes.length, pages: pages.length }) : t('ccg.codes_hint_base')"
+            :hint="
+              codes.length
+                ? t('ccg.codes_hint_base') +
+                  ' ' +
+                  t('ccg.codes_hint_count', { count: codes.length, pages: pages.length })
+                : t('ccg.codes_hint_base')
+            "
             persistent-hint
             auto-grow
           />
@@ -133,7 +137,9 @@
               <template #append-inner>
                 <v-tooltip
                   location="top"
-                  :text="cardBgImageUrl ? t('ccg.image_loaded_tooltip') : t('ccg.upload_image_tooltip')"
+                  :text="
+                    cardBgImageUrl ? t('ccg.image_loaded_tooltip') : t('ccg.upload_image_tooltip')
+                  "
                 >
                   <template #activator="{ props }">
                     <v-icon
@@ -147,7 +153,11 @@
                   </template>
                 </v-tooltip>
 
-                <v-tooltip v-if="cardBgImageUrl" location="top" :text="t('ccg.remove_image_tooltip')">
+                <v-tooltip
+                  v-if="cardBgImageUrl"
+                  location="top"
+                  :text="t('ccg.remove_image_tooltip')"
+                >
                   <template #activator="{ props }">
                     <v-icon v-bind="props" style="cursor: pointer" @click="clearBgImage">
                       mdi-close
@@ -169,8 +179,9 @@
 
       <v-row>
         <v-col cols="12">
-          <v-row align="center" class="ga-4">
+          <v-row align="start" class="ga-6 flex-wrap">
             <v-col cols="auto">
+              <p class="text-label-medium text-medium-emphasis mb-2">{{ t('ccg.layout_label') }}</p>
               <v-btn-toggle
                 v-model="cardLayout"
                 mandatory
@@ -183,49 +194,80 @@
               </v-btn-toggle>
             </v-col>
 
-            <v-col cols="auto" class="d-flex align-center ga-2">
-              <v-btn-toggle
-                v-model="backsideType"
-                mandatory
-                color="primary"
-                density="compact"
-                variant="outlined"
-              >
-                <v-btn value="off">{{ t('ccg.no_backside') }}</v-btn>
-                <v-btn value="logo">CA Logo</v-btn>
-                <v-btn v-if="cardLayout === 'fancy'" value="qr">QR Code</v-btn>
-                <v-btn value="custom">{{ t('ccg.custom') }}</v-btn>
-              </v-btn-toggle>
+            <v-col cols="auto">
+              <p class="text-label-medium text-medium-emphasis mb-2">
+                {{ t('ccg.backside_label') }}
+              </p>
+              <div class="d-flex flex-column ga-2">
+                <div class="d-flex align-center flex-wrap ga-2">
+                  <v-btn-toggle
+                    v-model="backsideType"
+                    mandatory
+                    color="primary"
+                    density="compact"
+                    variant="outlined"
+                  >
+                    <v-btn value="off">{{ t('ccg.no_backside') }}</v-btn>
+                    <v-btn value="logo">CA Logo</v-btn>
+                    <v-btn v-if="cardLayout === 'fancy'" value="qr">QR Code</v-btn>
+                    <v-btn value="custom">{{ t('ccg.custom') }}</v-btn>
+                  </v-btn-toggle>
 
-              <template v-if="backsideType === 'custom'">
-                <v-btn variant="tonal" prepend-icon="mdi-upload" @click="fileInput?.click()">
-                  {{ customBacksideUrl ? t('ccg.change_image') : t('ccg.upload_custom_logo') }}
-                </v-btn>
-                <input
-                  ref="fileInput"
-                  type="file"
-                  accept="image/*"
-                  style="display: none"
-                  @change="onFileChange"
+                  <template v-if="backsideType === 'custom'">
+                    <v-btn variant="tonal" prepend-icon="mdi-upload" @click="fileInput?.click()">
+                      {{ customBacksideUrl ? t('ccg.change_image') : t('ccg.upload_custom_logo') }}
+                    </v-btn>
+                    <input
+                      ref="fileInput"
+                      type="file"
+                      accept="image/*"
+                      style="display: none"
+                      @change="onFileChange"
+                    />
+                  </template>
+                </div>
+
+                <v-text-field
+                  v-if="backsideType !== 'off'"
+                  v-model.number="duplexOffsetX"
+                  type="number"
+                  step="0.5"
+                  density="compact"
+                  variant="solo-filled"
+                  style="width: 220px"
+                  :label="t('ccg.duplex_offset_label')"
+                  hide-details
                 />
-              </template>
+              </div>
             </v-col>
 
-            <v-col cols="auto" class="d-flex align-center ga-2">
-              <v-btn-toggle
-                v-model="itemsDisplay"
-                mandatory
-                color="primary"
-                density="compact"
-                variant="outlined"
-              >
-                <v-btn value="images">{{ t('ccg.images') }}</v-btn>
-                <v-btn value="text">{{ t('ccg.text') }}</v-btn>
-                <v-btn value="none">{{ t('ccg.none') }}</v-btn>
-              </v-btn-toggle>
-              <img v-for="item in items" :key="item" :src="item" class="preview-icon" />
+            <v-col cols="auto">
+              <p class="text-label-medium text-medium-emphasis mb-2">{{ t('ccg.items_label') }}</p>
+              <div class="d-flex align-center ga-2">
+                <v-btn-toggle
+                  v-model="itemsDisplay"
+                  mandatory
+                  color="primary"
+                  density="compact"
+                  variant="outlined"
+                >
+                  <v-btn value="images">{{ t('ccg.images') }}</v-btn>
+                  <v-btn value="text">{{ t('ccg.text') }}</v-btn>
+                  <v-btn value="none">{{ t('ccg.none') }}</v-btn>
+                </v-btn-toggle>
+                <img v-for="item in items" :key="item" :src="item" class="preview-icon" />
+              </div>
             </v-col>
           </v-row>
+
+          <v-alert
+            v-if="backsideType !== 'off'"
+            :text="t('ccg.duplex_offset_alert')"
+            type="info"
+            variant="tonal"
+            density="compact"
+            class="mt-4"
+          />
         </v-col>
       </v-row>
 
@@ -316,7 +358,7 @@
       </div>
 
       <div v-if="backsideType !== 'off'" class="a4-preview backsides">
-        <div class="cards-grid">
+        <div class="cards-grid" :style="backsideGridStyle">
           <div
             v-for="(code, i) in backOrder(page)"
             :key="'back-' + pageIndex + '-' + i"
@@ -427,6 +469,10 @@ const items = [
 const cardLayout = ref<'eco' | 'fancy'>('eco')
 const backsideType = ref<'off' | 'logo' | 'qr' | 'custom'>('off')
 const customBacksideUrl = ref<string | null>(null)
+const duplexOffsetX = ref(-3) // in mm, negative shifts left, positive shifts right
+const backsideGridStyle = computed(() =>
+  duplexOffsetX.value ? { transform: `translateX(${duplexOffsetX.value}mm)` } : {}
+)
 const fileInput = ref<HTMLInputElement | null>(null)
 
 const onFileChange = (e: Event) => {
@@ -497,7 +543,7 @@ const print = () => {
     code_count: codes.value.length,
     page_count: pages.value.length,
     title: title.value,
-    expiry_date: expiryDate.value,
+    expiry_date: expiryDate.value
   })
   window.print()
 }
@@ -535,7 +581,7 @@ const print = () => {
     width: 100% !important;
     min-height: auto !important;
     padding: 0 !important;
-    padding-bottom: 7mm !important;
+    padding-bottom: 2mm !important;
     margin: 0 !important;
     box-shadow: none !important;
     page-break-after: always;
@@ -545,17 +591,24 @@ const print = () => {
     page-break-after: auto;
   }
 
+  /*
+   * Many browsers/printers ignore the @page margin above once the print
+   * dialog's "Margins" is left at "Default" (which is commonly ~12-13mm,
+   * not the 5mm assumed here). Row height is also tuned for US Letter
+   * (279.4mm tall), which is ~17.6mm shorter than A4 (297mm) — that's the
+   * binding constraint for 8 rows, not page width, on either paper size.
+   */
   .cards-grid {
-    grid-template-columns: repeat(3, 62mm) !important;
+    grid-template-columns: repeat(3, 60mm) !important;
     gap: 0 !important;
-    width: 186mm !important;
+    width: 180mm !important;
     margin: 0 auto !important;
     justify-content: unset !important;
   }
 
   .business-card {
     width: 100% !important;
-    height: 35mm !important;
+    height: 31mm !important;
     border-radius: 0 !important;
   }
 }

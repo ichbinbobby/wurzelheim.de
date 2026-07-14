@@ -32,6 +32,9 @@
     "expiry_color_label": "Couleur de la date d'expiration",
     "card_background_label": "Arrière-plan de la carte",
     "card_background_hint": "Couleur hex (ex. #ff0000) ou image. Laissez vide pour aucun arrière-plan. Activez les graphiques d'arrière-plan dans la boîte de dialogue d'impression.",
+    "layout_label": "Mise en page",
+    "backside_label": "Verso",
+    "items_label": "Objets affichés",
     "front": "Recto",
     "back": "Verso",
     "image_loaded_tooltip": "Image chargée — cliquer pour remplacer",
@@ -47,6 +50,8 @@
     "save_as_pdf": "Enregistrer en PDF",
     "print_hint": "Ouvre la boîte de dialogue d'impression. Pour enregistrer en PDF, sélectionnez \"Enregistrer en PDF\".",
     "double_sided_hint": "Pour l'impression recto-verso, activez {twosided} et réglez le pli sur {longedge}.",
-    "code_expires": "Le code expire le {date}"
+    "code_expires": "Le code expire le {date}",
+    "duplex_offset_label": "Décalage du verso (mm)",
+    "duplex_offset_alert": "La plupart des imprimantes recto-verso n'alignent pas parfaitement le verso avec le recto — le papier est réintroduit par un chemin distinct pour la seconde passe, ce qui provoque généralement un léger décalage constant. Ce n'est pas un bug de cet outil. Pour calibrer : imprimez une page de test recto-verso, tenez-la à contre-jour et mesurez en mm l'écart entre une carte de code du verso et son équivalent au recto. Entrez cette valeur ici (négatif décale le verso vers la gauche, positif vers la droite), puis réimprimez pour vérifier. Cette valeur est propre à votre imprimante (et approximativement à son type de papier/réglages) — recalibrez si vous changez d'imprimante."
   }
 }

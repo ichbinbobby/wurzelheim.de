@@ -32,6 +32,9 @@
     "expiry_color_label": "Color de la fecha de vencimiento",
     "card_background_label": "Fondo de la tarjeta",
     "card_background_hint": "Color hex (p. ej. #ff0000) o imagen. Déjalo vacío para ningún fondo. Activa los gráficos de fondo en el diálogo de impresión.",
+    "layout_label": "Diseño de tarjeta",
+    "backside_label": "Reverso",
+    "items_label": "Objetos mostrados",
     "front": "Frente",
     "back": "Reverso",
     "image_loaded_tooltip": "Imagen cargada — clic para reemplazar",
@@ -47,6 +50,8 @@
     "save_as_pdf": "Guardar como PDF",
     "print_hint": "Abre el diálogo de impresión. Para guardar como PDF selecciona \"Guardar como PDF\".",
     "double_sided_hint": "Para impresión a doble cara, activa {twosided} y ajusta el giro a {longedge}.",
-    "code_expires": "El código expira el {date}"
+    "code_expires": "El código expira el {date}",
+    "duplex_offset_label": "Desplazamiento del reverso (mm)",
+    "duplex_offset_alert": "La mayoría de las impresoras dúplex no alinean perfectamente el reverso con el anverso — el papel se vuelve a introducir por una ruta distinta para la segunda pasada, lo que suele provocar un desplazamiento pequeño y constante. Esto no es un error de esta herramienta. Para calibrar: imprime una página de prueba a doble cara, sostenla a contraluz y mide en mm cuánto se desvía una tarjeta de código del reverso respecto a su equivalente en el anverso. Introduce ese valor aquí (negativo desplaza el reverso a la izquierda, positivo a la derecha) e imprime de nuevo para confirmar. Este valor es específico de tu impresora (y aproximadamente de su tipo de papel/ajustes), así que recalíbralo si cambias de impresora."
   }
 }
