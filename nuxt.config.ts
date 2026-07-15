@@ -38,8 +38,8 @@ export default defineNuxtConfig({
       { code: 'fr', name: 'Français', file: 'fr.json' },
       { code: 'es', name: 'Español', file: 'es.json' },
       { code: 'it', name: 'Italiano', file: 'it.json' },
-      { code: 'pt', name: 'Português', file: 'pt.json' },
-    ],
+      { code: 'pt', name: 'Português', file: 'pt.json' }
+    ]
   },
 
   vuetify: {
@@ -65,6 +65,40 @@ export default defineNuxtConfig({
 
   app: {
     head: {
+      title: 'Wurzelheim — Tools for Pokémon GO Community Ambassadors',
+      meta: [
+        {
+          name: 'description',
+          content:
+            'Tools to make life for Pokémon GO Community Ambassadors easier — code card generator for printing monthly codes.'
+        },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:site_name', content: 'Wurzelheim' },
+        {
+          property: 'og:title',
+          content: 'Wurzelheim — Tools for Pokémon GO Community Ambassadors'
+        },
+        {
+          property: 'og:description',
+          content:
+            'Tools to make life for Pokémon GO Community Ambassadors easier — code card generator for printing monthly codes.'
+        },
+        { property: 'og:url', content: 'https://wurzelheim.de/' },
+        { property: 'og:image', content: 'https://wurzelheim.de/og-image.png' },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        {
+          name: 'twitter:title',
+          content: 'Wurzelheim — Tools for Pokémon GO Community Ambassadors'
+        },
+        {
+          name: 'twitter:description',
+          content:
+            'Tools to make life for Pokémon GO Community Ambassadors easier — code card generator for printing monthly codes.'
+        },
+        { name: 'twitter:image', content: 'https://wurzelheim.de/og-image.png' }
+      ],
       script: [
         {
           innerHTML: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied',wait_for_update:500});`,
