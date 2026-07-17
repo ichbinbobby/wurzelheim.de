@@ -255,6 +255,22 @@
               <img v-for="item in items" :key="item" :src="item" class="preview-icon" />
             </div>
           </v-col>
+
+          <v-col cols="auto">
+            <p class="text-label-medium text-medium-emphasis mb-2">
+              {{ t('ccg.paper_size_label') }}
+            </p>
+            <v-btn-toggle
+              v-model="state.paperSize"
+              mandatory
+              color="primary"
+              density="compact"
+              variant="outlined"
+            >
+              <v-btn value="a4">{{ t('ccg.paper_size_a4') }}</v-btn>
+              <v-btn value="letter">{{ t('ccg.paper_size_letter') }}</v-btn>
+            </v-btn-toggle>
+          </v-col>
         </v-row>
 
         <v-alert

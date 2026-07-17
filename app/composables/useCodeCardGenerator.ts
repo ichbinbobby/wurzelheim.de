@@ -33,6 +33,7 @@ export interface CodeCardGeneratorState {
   backsideType: 'off' | 'logo' | 'qr' | 'custom'
   customBacksideUrl: string | null
   duplexOffsetX: number
+  paperSize: 'a4' | 'letter'
 }
 
 const ITEMS = [
@@ -98,7 +99,8 @@ export function useCodeCardGenerator() {
     cardLayout: 'eco',
     backsideType: 'off',
     customBacksideUrl: null,
-    duplexOffsetX: -3 // in mm, negative shifts left, positive shifts right
+    duplexOffsetX: -3, // in mm, negative shifts left, positive shifts right
+    paperSize: 'a4'
   })
 
   const clearBgImage = () => {
@@ -205,6 +207,7 @@ export function useCodeCardGenerator() {
     ;(window as Window & { gtag?: (...args: unknown[]) => void }).gtag?.('event', 'generate_pdf', {
       card_layout: state.cardLayout,
       backside_type: state.backsideType,
+      paper_size: state.paperSize,
       code_count: codes.value.length,
       page_count: pages.value.length,
       title: state.title,

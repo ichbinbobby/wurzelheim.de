@@ -93,6 +93,11 @@ const { t } = useI18n()
     height: 31mm !important;
     border-radius: 0 !important;
   }
+
+  /* A4 (297mm) is ~17.6mm taller than US Letter (279.4mm), so 8 rows/page can be a bit taller */
+  .paper-a4 .business-card {
+    height: 33mm !important;
+  }
 }
 </style>
 

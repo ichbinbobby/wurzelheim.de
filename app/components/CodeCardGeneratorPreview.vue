@@ -1,37 +1,39 @@
 <template>
-  <template v-for="(page, pageIndex) in pages" :key="pageIndex">
-    <div class="a4-preview">
-      <div class="cards-grid">
-        <CodeCard
-          v-for="code in page"
-          :key="code"
-          side="front"
-          :code="code"
-          :config="config"
-          :qr-data-url="qrDataUrls[code]"
-          :card-style="frontCardStyle"
-        />
+  <div :class="{ 'paper-a4': paperSize === 'a4' }">
+    <template v-for="(page, pageIndex) in pages" :key="pageIndex">
+      <div class="a4-preview">
+        <div class="cards-grid">
+          <CodeCard
+            v-for="code in page"
+            :key="code"
+            side="front"
+            :code="code"
+            :config="config"
+            :qr-data-url="qrDataUrls[code]"
+            :card-style="frontCardStyle"
+          />
+        </div>
+        <div v-if="config.backsideType !== 'off'" class="corner-marker corner-marker--right">
+          flip &#8594;
+        </div>
       </div>
-      <div v-if="config.backsideType !== 'off'" class="corner-marker corner-marker--right">
-        flip &#8594;
-      </div>
-    </div>
 
-    <div v-if="config.backsideType !== 'off'" class="a4-preview backsides">
-      <div class="cards-grid" :style="backsideGridStyle">
-        <CodeCard
-          v-for="(code, i) in backOrder(page)"
-          :key="'back-' + pageIndex + '-' + i"
-          side="back"
-          :code="code"
-          :config="config"
-          :qr-data-url="code ? qrDataUrls[code] : undefined"
-          :card-style="backCardStyle"
-        />
+      <div v-if="config.backsideType !== 'off'" class="a4-preview backsides">
+        <div class="cards-grid" :style="backsideGridStyle">
+          <CodeCard
+            v-for="(code, i) in backOrder(page)"
+            :key="'back-' + pageIndex + '-' + i"
+            side="back"
+            :code="code"
+            :config="config"
+            :qr-data-url="code ? qrDataUrls[code] : undefined"
+            :card-style="backCardStyle"
+          />
+        </div>
+        <div class="corner-marker corner-marker--left">&#8592; flip</div>
       </div>
-      <div class="corner-marker corner-marker--left">&#8592; flip</div>
-    </div>
-  </template>
+    </template>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -46,6 +48,7 @@ defineProps<{
   frontCardStyle: CSSProperties
   backCardStyle: CSSProperties
   backsideGridStyle: CSSProperties
+  paperSize: 'a4' | 'letter'
 }>()
 </script>
 
@@ -68,10 +71,11 @@ defineProps<{
   /*
    * Many browsers/printers ignore the @page margin set on the root
    * component once the print dialog's "Margins" is left at "Default"
-   * (which is commonly ~12-13mm, not the 5mm assumed there). Row height
-   * is also tuned for US Letter (279.4mm tall), which is ~17.6mm shorter
-   * than A4 (297mm) — that's the binding constraint for 8 rows, not page
-   * width, on either paper size.
+   * (which is commonly ~12-13mm, not the 5mm assumed there). Column
+   * width already fits safely on both A4 and US Letter; row height (see
+   * the .paper-a4 override in CodeCard.vue) is the dimension that
+   * actually differs — Letter is ~17.6mm shorter than A4 (279.4mm vs
+   * 297mm), so only A4 can afford slightly taller rows for 8 rows/page.
    */
   .cards-grid {
     grid-template-columns: repeat(3, 60mm) !important;
@@ -79,6 +83,16 @@ defineProps<{
     width: 180mm !important;
     margin: 0 auto !important;
     justify-content: unset !important;
+  }
+
+  /*
+   * .a4-preview shrinks to its content height in print (min-height: auto
+   * above), so "bottom: 4mm" here would sit right under the last row of
+   * cards instead of at the physical page edge — overlapping them. It's
+   * only an on-screen orientation hint, so just hide it on paper.
+   */
+  .corner-marker {
+    display: none !important;
   }
 }
 </style>

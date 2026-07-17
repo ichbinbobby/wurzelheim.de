@@ -18,6 +18,7 @@
       :front-card-style="frontCardStyle"
       :back-card-style="backCardStyle"
       :backside-grid-style="backsideGridStyle"
+      :paper-size="state.paperSize"
     />
   </v-container>
 </template>
@@ -38,15 +39,22 @@ const {
   onFileChange,
   print
 } = useCodeCardGenerator()
+
+// @page's `size` isn't scopable by CSS class, so it's set via a reactive
+// injected style tag instead, keeping it in sync with the paper size toggle.
+useHead({
+  style: [
+    {
+      innerHTML: computed(
+        () => `@media print { @page { size: ${state.paperSize === 'letter' ? 'letter' : 'A4'}; margin: 5mm; } }`
+      )
+    }
+  ]
+})
 </script>
 
 <style>
 @media print {
-  @page {
-    size: A4;
-    margin: 5mm;
-  }
-
   :root {
     color-scheme: light !important;
   }
