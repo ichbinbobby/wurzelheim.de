@@ -3,6 +3,7 @@ import QRCode from 'qrcode'
 
 export interface CodeCardConfig {
   layout: 'eco' | 'fancy'
+  qrPosition: 'left' | 'right'
   title: string
   titleColor: string
   codeFontColor: string
@@ -30,6 +31,7 @@ export interface CodeCardGeneratorState {
   cardBgImageUrl: string | null
   bgApplyTo: string[]
   cardLayout: 'eco' | 'fancy'
+  qrPosition: 'left' | 'right'
   backsideType: 'off' | 'logo' | 'qr' | 'custom'
   customBacksideUrl: string | null
   duplexOffsetX: number
@@ -97,6 +99,7 @@ export function useCodeCardGenerator() {
     cardBgImageUrl: null,
     bgApplyTo: ['front', 'back'],
     cardLayout: 'eco',
+    qrPosition: 'right',
     backsideType: 'off',
     customBacksideUrl: null,
     duplexOffsetX: -3, // in mm, negative shifts left, positive shifts right
@@ -190,6 +193,7 @@ export function useCodeCardGenerator() {
 
   const cardConfig = computed<CodeCardConfig>(() => ({
     layout: state.cardLayout,
+    qrPosition: state.qrPosition,
     title: state.title,
     titleColor: state.titleColor,
     codeFontColor: state.codeFontColor,

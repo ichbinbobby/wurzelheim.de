@@ -189,6 +189,22 @@
             </v-btn-toggle>
           </v-col>
 
+          <v-col v-if="state.cardLayout === 'eco'" cols="auto">
+            <p class="text-label-medium text-medium-emphasis mb-2">
+              {{ t('ccg.qr_position_label') }}
+            </p>
+            <v-btn-toggle
+              v-model="state.qrPosition"
+              mandatory
+              color="primary"
+              density="compact"
+              variant="outlined"
+            >
+              <v-btn value="left">{{ t('ccg.qr_left') }}</v-btn>
+              <v-btn value="right">{{ t('ccg.qr_right') }}</v-btn>
+            </v-btn-toggle>
+          </v-col>
+
           <v-col cols="auto">
             <p class="text-label-medium text-medium-emphasis mb-2">
               {{ t('ccg.backside_label') }}

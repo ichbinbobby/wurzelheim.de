@@ -2,12 +2,13 @@
   <div
     v-if="side === 'front'"
     class="business-card"
-    :class="{ 'business-card--eco': config.layout === 'eco' }"
+    :class="[config.layout === 'eco' ? 'business-card--eco' : '', `qr-${config.qrPosition}`]"
     :style="cardStyle"
   >
     <template v-if="config.layout === 'eco'">
       <div class="card-title" :style="{ color: config.titleColor }">{{ config.title }}</div>
-      <div class="card-middle">
+      <div class="card-middle" :class="`qr-${config.qrPosition}`">
+        <img v-if="qrDataUrl" :src="qrDataUrl" class="card-qr" />
         <div class="card-content">
           <div
             class="card-code"
@@ -25,7 +26,7 @@
             <span v-else class="card-items-text">{{ config.itemsText }}</span>
           </div>
         </div>
-        <img v-if="qrDataUrl" :src="qrDataUrl" class="card-qr" />
+
       </div>
       <div class="card-expiry" :style="{ color: config.expiryColor }">{{ config.expiryDate }}</div>
     </template>
@@ -92,6 +93,7 @@ const { t } = useI18n()
     width: 100% !important;
     height: 31mm !important;
     border-radius: 0 !important;
+    overflow: hidden !important;
   }
 
   /* A4 (297mm) is ~17.6mm taller than US Letter (279.4mm), so 8 rows/page can be a bit taller */
@@ -150,11 +152,19 @@ const { t } = useI18n()
 }
 
 .card-qr {
-  width: 20mm;
-  height: 20mm;
+  width: 18mm;
+  height: 18mm;
   object-fit: contain;
   align-self: center;
   flex-shrink: 0;
+}
+
+.qr-right .card-qr {
+  order: 1;
+}
+
+.qr-right .card-content {
+  order: 0;
 }
 
 .business-card--eco .card-item-icon {
